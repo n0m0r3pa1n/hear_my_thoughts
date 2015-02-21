@@ -1,0 +1,34 @@
+# Hear My Thoughts
+
+## A project helping deaf people
+
+### Idea
+
+The main idea of the project is to provide server and client solutions for translating speech into text.
+
+The project can be used in lectures where the teacher wants to help the deaf students in the room to easily understand hi. It can be done by sharing a single lecture room in which other participants can join and receive instant translation of what he is speaking.
+
+There can be added different features to the project like saving notes and audio files, sharing information between participants etc.
+
+### Solutions
+
+The solutions consist of two parts:
+
+ * Client - this will be an android app written in Java and using Android Studio
+ * Server - I want instant translation to be delivered accross different devices. In this case I will use NodeJS as a server solution with websockets.
+ 
+### Practical Parts
+
+#### Android
+
+1. Speech to text recognition - the app will use Google's speech to text recognition API which is proided with the OS. Currently it's implementation can be found in the DictationFragment. 
+2. Screens - TBD
+3. Features - TBD
+
+
+#### NodeJS
+TBD
+
+ 
+ 
+
