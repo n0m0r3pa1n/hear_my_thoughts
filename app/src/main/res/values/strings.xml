@@ -5,4 +5,20 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Roboto typefaces -->
+    <string name="Roboto_BlackItalic">Roboto_BlackItalic</string>
+    <string name="Roboto_Bold">Roboto_Bold</string>
+    <string name="Roboto_BoldCondensed">Roboto_BoldCondensed</string>
+    <string name="Roboto_BoldCondensedItalic">Roboto_BoldCondensedItalic</string>
+    <string name="Roboto_BoldItalic">Roboto_BoldItalic</string>
+    <string name="Roboto_Condensed">Roboto_Condensed</string>
+    <string name="Roboto_CondensedItalic">Roboto_CondensedItalic</string>
+    <string name="Roboto_Italic">Roboto_Italic</string>
+    <string name="Roboto_Light">Roboto_Light</string>
+    <string name="Roboto_LightItalic">Roboto_LightItalic</string>
+    <string name="Roboto_Medium">Roboto_Medium</string>
+    <string name="Roboto_MediumItalic">Roboto_MediumItalic</string>
+    <string name="Roboto_Regular">Roboto_Regular</string>
+    <string name="Roboto_Thin">Roboto_Thin</string>
+    <string name="Roboto_ThinItalic">Roboto_ThinItalic</string>
 </resources>
