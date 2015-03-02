@@ -21,10 +21,21 @@ The solutions consist of two parts:
 
 #### Android
 
-1. Speech to text recognition - the app will use Google's speech to text recognition API which is proided with the OS. Currently it's implementation can be found in the DictationFragment. 
-2. Screens - TBD
-3. Features - TBD
 
+
+1. Speech to text recognition - the app will use Google's speech to text recognition API which is proided with the OS. Currently it's implementation can be found in the DictationFragment. 
+2. Screens -
+	1. UML diagram - [<img src="./docs/Base.png">](./docs/Base.png)
+3. Features -
+    1. Register using social networks - initially Twitter
+    2. Update your status
+        1. Teacher - give a proof that you are a teacher. After that you will have unlimited access so you can create as many rooms as you want. You will be given access code for each room.
+        2. Student - No proof is needed. Join any room you have access code for.
+    3. Start/Stop streaming - Stream text to all of the participants. You can also share the audio file with them after the lecture ends.
+    4. Join rooms - this option is only for students
+    5. Share lecture with all participants 
+
+I am currently working on these initial features and I will post my update here.
 
 #### NodeJS
 TBD
