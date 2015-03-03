@@ -12,10 +12,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nmp90.hearmythoughts.utils.WindowUtils;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import io.fabric.sdk.android.Fabric;
+
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends Activity {
@@ -30,6 +33,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowUtils.setupLollipopScreen(this);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);

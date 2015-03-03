@@ -26,7 +26,12 @@ The solutions consist of two parts:
 1. Speech to text recognition - the app will use Google's speech to text recognition API which is proided with the OS. Currently it's implementation can be found in the DictationFragment. 
 2. Screens -
 	1. UML diagram - [<img src="./docs/Base.png">](./docs/Base.png)
-3. Features -
+3. Design
+    1. Colors -
+        * Primary - green (4CAF50), dark green (388E3C), light green(81C784)
+        * Accent colors - yellow (FFEB3B), blue (90CAF9)
+    2. Navigation - TBD
+4. Features -
     1. Register using social networks - initially Twitter
     2. Update your status
         1. Teacher - give a proof that you are a teacher. After that you will have unlimited access so you can create as many rooms as you want. You will be given access code for each room.

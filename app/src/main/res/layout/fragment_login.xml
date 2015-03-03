@@ -2,15 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:gravity="center"
-    android:background="#8BC34A"
+    android:background="@color/bg_primary_green"
     android:layout_height="match_parent">
     
-    <TextView
-        android:layout_width=""
-        android:layout_height="" />
+    <com.nmp90.hearmythoughts.views.RobotoTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:padding="5dp"
+        android:gravity="center"
+        android:textSize="@dimen/txt_ordinary"
+        android:text="In order to use the app you must be logged in"
+        android:layout_marginBottom="20dp"/>
 
     <com.twitter.sdk.android.core.identity.TwitterLoginButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_primary_light_green"
+        android:text="Blah"/>
+
 </LinearLayout>

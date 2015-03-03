@@ -22,4 +22,10 @@
     <color name="drawer_menu_background">#f5f5f5</color>
     <color name="text_pink">#c63392</color>
     <color name="text_disabled_grey">#b2b2b2</color>
+
+    <color name="bg_primary_green">#4CAF50</color>
+    <color name="bg_primary_dark_green">#388E3C</color>
+    <color name="bg_primary_light_green">#81C784</color>
+    <color name="accent_blue">#90CAF9</color>
+    <color name="accent_yellow">#FFEB3B</color>
 </resources>
