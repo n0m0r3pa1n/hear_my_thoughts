@@ -5,7 +5,7 @@
     android:background="@color/bg_primary_green"
     android:layout_height="match_parent">
     
-    <com.nmp90.hearmythoughts.views.RobotoTextView
+    <com.nmp90.hearmythoughts.ui.views.RobotoTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
@@ -15,15 +15,9 @@
         android:text="In order to use the app you must be logged in"
         android:layout_marginBottom="20dp"/>
 
-    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_primary_light_green"
-        android:text="Blah"/>
 
 </LinearLayout>

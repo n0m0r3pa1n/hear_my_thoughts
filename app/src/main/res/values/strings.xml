@@ -21,4 +21,7 @@
     <string name="Roboto_Regular">Roboto_Regular</string>
     <string name="Roboto_Thin">Roboto_Thin</string>
     <string name="Roboto_ThinItalic">Roboto_ThinItalic</string>
+
+    <!-- Project Strings -->
+    <string name="recent_sessions">Recent Sessions</string>
 </resources>

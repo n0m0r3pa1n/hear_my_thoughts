@@ -1,37 +1,38 @@
-package com.nmp90.hearmythoughts.views;
+package com.nmp90.hearmythoughts.ui.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.nmp90.hearmythoughts.R;
 
-/**
- * Created by nmp on 15-3-2.
- */
-public class RobotoButton extends Button {
+public class RobotoTextView extends TextView {
 
-    public RobotoButton(Context context) {
+    public RobotoTextView(Context context) {
         super(context);
     }
 
-    public RobotoButton(Context context, AttributeSet attrs) {
+    public RobotoTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setTypeFace(context, attrs);
+        if (!isInEditMode()) {
+            setTypeFace(context, attrs);
+        }
     }
 
-    public RobotoButton(Context context, AttributeSet attrs, int defStyle) {
+    public RobotoTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setTypeFace(context, attrs);
+        if (!isInEditMode()) {
+            setTypeFace(context, attrs);
+        }
     }
 
     private void setTypeFace(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.RobotoTextView);
-        String robotoFont = a.getString(R.styleable.RobotoButton_robo_button_typeface);
+        String robotoFont = a.getString(R.styleable.RobotoTextView_robo_typeface);
         if (TextUtils.isEmpty(robotoFont)) {
             robotoFont = context.getString(R.string.Roboto_Regular);
         }
@@ -40,5 +41,4 @@ public class RobotoButton extends Button {
         setTypeface(font);
         a.recycle();
     }
-
 }

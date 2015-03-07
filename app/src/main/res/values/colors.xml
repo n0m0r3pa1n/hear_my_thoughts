@@ -13,7 +13,6 @@
     <color name="light_blue">#00B0D8</color>
     <color name="dark_blue">#286877</color>
     <color name="white">#fff</color>
-    <color name="billy_green">#74c04f</color>
     <color name="btn_stroke">#cdcdcd</color>
     <color name="btn_end">#c63392</color>
     <color name="btn_start">#c63392</color>
@@ -28,4 +27,6 @@
     <color name="bg_primary_light_green">#81C784</color>
     <color name="accent_blue">#90CAF9</color>
     <color name="accent_yellow">#FFEB3B</color>
+    <color name="accent_deep_orange">#FF5722</color>
+    <color name="accent_orange">#FF9800</color>
 </resources>

@@ -9,4 +9,9 @@ public interface Constants {
     public static final int SPEECH_MINIMUM_LENGTH = 2000;
     public static final int SPEECH_MAX_RESULTS = 5;
     public static final String SPEECH_DEFAULT_LANGUAGE = "en";
+
+    public static final String KEY_USER_EMAIL = "user_emal";
+
+    public static final String TAG_RECENT_SESSIONS = "RecentSessionsFragment";
+    public static final String TAG_LOGIN = "LoginFragment";
 }

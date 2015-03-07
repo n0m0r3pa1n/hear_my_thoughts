@@ -1,6 +1,6 @@
 <resources>
     <!-- inherit from the material theme -->
-    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
         <item name="android:colorPrimary">@color/bg_primary_green</item>
@@ -9,5 +9,7 @@
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:navigationBarColor">@color/bg_primary_light_green</item>
         <item name="android:colorAccent">@color/accent_yellow</item>
+
+        <item name="android:windowActionBar">false</item>
     </style>
 </resources>

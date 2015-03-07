@@ -1,31 +1,31 @@
-package com.nmp90.hearmythoughts;
+package com.nmp90.hearmythoughts.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nmp90.hearmythoughts.R;
+import com.nmp90.hearmythoughts.constants.Constants;
+import com.nmp90.hearmythoughts.providers.AuthProvider;
+import com.nmp90.hearmythoughts.ui.fragments.LoginFragment;
+import com.nmp90.hearmythoughts.ui.fragments.RecentSessionsFragment;
 import com.nmp90.hearmythoughts.utils.WindowUtils;
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
 
 import java.util.List;
 
-import io.fabric.sdk.android.Fabric;
 
-
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "sJjsMcgHXdmcfhUaCQV5uBKI9";
-    private static final String TWITTER_SECRET = "tvxTEyBHiaPk16xIwyFk8JZm83vDKokuqFc3u4AD5hoqgUK0CF";
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private Button btnTranslate;
     private TextView tvText;
@@ -34,11 +34,15 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WindowUtils.setupLollipopScreen(this);
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
+        Toolbar actionBar = (Toolbar) findViewById(R.id.actionBar);
+        setSupportActionBar(actionBar);
 
-
+        if(AuthProvider.isUserLoggedIn() == false) {
+            getSupportFragmentManager().beginTransaction().add(R.id.container, new LoginFragment(), Constants.TAG_LOGIN).commit();
+        } else {
+            getSupportFragmentManager().beginTransaction().add(R.id.container, new RecentSessionsFragment(), Constants.TAG_RECENT_SESSIONS).commit();
+        }
 //        btnTranslate = (Button) findViewById(R.id.btn_translate);
 //        tvText = (TextView) findViewById(R.id.textView);
 
