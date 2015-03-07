@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+         Tell Android that the class "RobotoTextView" can be styled, 
+         and which attributes it supports
+    -->
+    <declare-styleable name="RobotoTextView">
+        <attr name="robo_typeface" format="string" />
+    </declare-styleable>
+    <declare-styleable name="RobotoButton">
+        <attr name="robo_button_typeface" format="string" />
+    </declare-styleable>
+    <declare-styleable name="RobotoEditText">
+        <attr name="robo_edit_typeface" format="string" />
+    </declare-styleable>
+    <declare-styleable name="ExpandableTextView">
+        <attr name="text" format="string" />
+    </declare-styleable>
+</resources>
