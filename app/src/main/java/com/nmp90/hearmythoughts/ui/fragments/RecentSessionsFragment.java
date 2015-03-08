@@ -6,10 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.nmp90.hearmythoughts.R;
+import com.nmp90.hearmythoughts.providers.FakeDataProvider;
+import com.nmp90.hearmythoughts.ui.adapters.RecentSessionsAdapter;
 
 /**
  * Created by nmp on 15-3-7.
@@ -21,7 +22,7 @@ public class RecentSessionsFragment extends Fragment {
         View headerView = inflater.inflate(R.layout.view_header_recent_sessions, container, false);
 
         ListView lvRecentSession = (ListView) view.findViewById(R.id.lv_recent_sessions);
-        lvRecentSession.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_expandable_list_item_1, new String[] {"Test1", "Test2"}));
+        lvRecentSession.setAdapter(new RecentSessionsAdapter(getActivity(), FakeDataProvider.getRecentSessions()));
         lvRecentSession.addHeaderView(headerView);
         return view;
     }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="match_parent">
+
+    <com.nmp90.hearmythoughts.ui.views.RobotoTextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/iv_lecturer_image"
+        android:textSize="24sp"
+        android:text="Mathematics for deaf people ala" />
+
+    <com.nmp90.hearmythoughts.ui.views.CircleImageView
+        android:id="@+id/iv_lecturer_image"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:border_width="2dp"
+        app:border_color="@color/bg_primary_dark_green"
+        />
+
+    <com.nmp90.hearmythoughts.ui.views.RobotoTextView
+        android:layout_below="@id/tv_title"
+        android:id="@+id/tv_lecturer"
+        android:textSize="22sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lecturer: Georgi Mirchev" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/tv_lecturer">
+        <com.nmp90.hearmythoughts.ui.views.RobotoTextView
+            android:id="@+id/tv_date"
+            android:text="2015.03.28"
+            android:textSize="21sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.nmp90.hearmythoughts.ui.views.RobotoTextView
+            android:id="@+id/tv_participants"
+            android:text="28"
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:id="@+id/iv_participants"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_account"/>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

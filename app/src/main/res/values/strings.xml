@@ -24,4 +24,16 @@
 
     <!-- Project Strings -->
     <string name="recent_sessions">Recent Sessions</string>
+
+    <plurals name="numberOfParticipants">
+        <!--
+             As a developer, you should always supply "one" and "other"
+             strings. Your translators will know which strings are actually
+             needed for their language. Always include %d in "one" because
+             translators will need to use %d for languages where "one"
+             doesn't mean 1 (as explained above).
+          -->
+        <item quantity="one">%d participant</item>
+        <item quantity="other">%d participants</item>
+    </plurals>
 </resources>

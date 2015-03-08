@@ -29,4 +29,6 @@
     <color name="accent_yellow">#FFEB3B</color>
     <color name="accent_deep_orange">#FF5722</color>
     <color name="accent_orange">#FF9800</color>
+
+    <color name="rounded_image_color">#FF222222</color>
 </resources>
