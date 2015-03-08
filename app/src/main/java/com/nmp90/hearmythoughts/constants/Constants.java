@@ -14,4 +14,6 @@ public interface Constants {
 
     public static final String TAG_RECENT_SESSIONS = "RecentSessionsFragment";
     public static final String TAG_LOGIN = "LoginFragment";
+    public static final String TAG_JOIN_SESSION  = "JoinSessionFragment";
+    public static final String TAG_CREATE_SESSION = "CreateSessionFragment";
 }

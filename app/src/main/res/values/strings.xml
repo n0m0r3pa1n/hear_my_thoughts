@@ -36,4 +36,5 @@
         <item quantity="one">%d participant</item>
         <item quantity="other">%d participants</item>
     </plurals>
+    <string name="title_activity_session">SessionActivity</string>
 </resources>

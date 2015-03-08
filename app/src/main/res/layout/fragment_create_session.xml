@@ -12,24 +12,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.nmp90.hearmythoughts.ui.views.RobotoTextView
-            android:id="@+id/tv_login_required"
+        <TextView
+            android:id="@+id/notification_label"
+            android:layout_width="match_parent"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"
+            android:textSize="18sp"
+            android:text="Enter your session title"
+            android:gravity="center_vertical"
+            android:layout_height="80dp" />
+
+        <com.nmp90.hearmythoughts.ui.views.RobotoEditText
+            android:id="@+id/et_session_title"
+            android:hint=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:padding="5dp"
-            android:gravity="center"
-            android:layout_centerInParent="true"
-            android:textSize="@dimen/txt_ordinary"
-            android:text="In order to use the app you must be logged in"
-            android:layout_marginBottom="20dp"/>
-
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/login_button"
-            android:layout_below="@id/tv_login_required"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_below="@id/notification_label"
+            />
 
     </RelativeLayout>
 
@@ -43,4 +42,14 @@
         android:textSize="15sp"
         android:background="@android:drawable/ic_menu_close_clear_cancel"/>
 
+    <Button
+        android:id="@+id/btn_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Create"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        android:background="@android:color/transparent"/>
 </RelativeLayout>

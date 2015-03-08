@@ -1,11 +1,10 @@
-package com.nmp90.hearmythoughts.ui.fragments;
+package com.nmp90.hearmythoughts.ui.fragments.notifications;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,8 @@ import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
 /**
  * Created by nmp on 15-3-2.
  */
-public class LoginFragment extends Fragment implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class LoginFragment extends BaseNotificationFragment implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    public static final String TAG = LoginFragment.class.getSimpleName();
     private static final int RC_SIGN_IN = 0;
 
     private boolean isSignInClicked;
@@ -46,9 +46,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Goo
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        View view = getInflatedView(inflater, container, R.layout.fragment_login);
         loginButton = (SignInButton)
                 view.findViewById(R.id.login_button);
         loginButton.setOnClickListener(this);

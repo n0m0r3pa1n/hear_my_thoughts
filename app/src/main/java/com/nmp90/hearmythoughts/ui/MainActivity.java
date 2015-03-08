@@ -16,8 +16,8 @@ import android.widget.Toast;
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
-import com.nmp90.hearmythoughts.ui.fragments.LoginFragment;
 import com.nmp90.hearmythoughts.ui.fragments.RecentSessionsFragment;
+import com.nmp90.hearmythoughts.ui.fragments.notifications.LoginFragment;
 import com.nmp90.hearmythoughts.utils.WindowUtils;
 
 import java.util.List;
@@ -41,7 +41,11 @@ public class MainActivity extends ActionBarActivity {
         if(AuthProvider.isUserLoggedIn() == false) {
             getSupportFragmentManager().beginTransaction().add(R.id.container, new LoginFragment(), Constants.TAG_LOGIN).commit();
         } else {
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new RecentSessionsFragment(), Constants.TAG_RECENT_SESSIONS).commit();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.abc_fade_in, R.anim.alpha_out)
+                    .add(R.id.container, new RecentSessionsFragment(), Constants.TAG_RECENT_SESSIONS)
+                    .commit();
         }
 //        btnTranslate = (Button) findViewById(R.id.btn_translate);
 //        tvText = (TextView) findViewById(R.id.textView);

@@ -25,10 +25,13 @@
     <color name="bg_primary_green">#4CAF50</color>
     <color name="bg_primary_dark_green">#388E3C</color>
     <color name="bg_primary_light_green">#81C784</color>
+    <color name="bg_semi_fragment">#B4000000</color>
+
     <color name="accent_blue">#90CAF9</color>
     <color name="accent_yellow">#FFEB3B</color>
     <color name="accent_deep_orange">#FF5722</color>
     <color name="accent_orange">#FF9800</color>
 
     <color name="rounded_image_color">#FF222222</color>
+
 </resources>
