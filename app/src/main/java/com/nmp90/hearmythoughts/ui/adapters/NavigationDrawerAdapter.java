@@ -14,9 +14,7 @@ import com.nmp90.hearmythoughts.ui.fragments.NavigationDrawerCallbacks;
 
 import java.util.List;
 
-/**
- * Created by poliveira on 24/10/2014.
- */
+
 public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.ViewHolder> {
 
     private List<NavigationItem> mData;

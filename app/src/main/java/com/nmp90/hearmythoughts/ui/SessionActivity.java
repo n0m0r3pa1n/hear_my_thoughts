@@ -6,9 +6,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.nmp90.hearmythoughts.R;
+import com.nmp90.hearmythoughts.constants.Constants;
+import com.nmp90.hearmythoughts.ui.fragments.ChatFragment;
 import com.nmp90.hearmythoughts.ui.fragments.NavigationDrawerCallbacks;
 import com.nmp90.hearmythoughts.ui.fragments.NavigationDrawerFragment;
 import com.nmp90.hearmythoughts.utils.WindowUtils;
@@ -54,7 +55,12 @@ public class SessionActivity extends ActionBarActivity implements NavigationDraw
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        Toast.makeText(this, "Menu item selected -> " + position, Toast.LENGTH_SHORT).show();
+        switch(position) {
+            case 0:
+                ChatFragment fragment = new ChatFragment();
+                getSupportFragmentManager().beginTransaction().add(R.id.container, fragment, Constants.TAG_CHAT).commit();
+                break;
+        }
     }
 
     @Override

@@ -50,17 +50,7 @@ public class MainActivity extends ActionBarActivity {
 //        btnTranslate = (Button) findViewById(R.id.btn_translate);
 //        tvText = (TextView) findViewById(R.id.textView);
 
-        PackageManager pm = getPackageManager();
-        List<ResolveInfo> activities = pm.queryIntentActivities(
-                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
-        if (activities.size() != 0) {
 
-            //speakButton.setOnClickListener(this);
-        } else {
-            Toast.makeText(this, "Your phone does not support speech recognition", Toast.LENGTH_LONG).show();
-//            speakButton.setEnabled(false);
-//            speakButton.setText("Recognizer not present");
-        }
 
     }
 

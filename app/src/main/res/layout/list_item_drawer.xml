@@ -3,7 +3,7 @@
     android:layout_height="48dp"
     android:layout_width="match_parent">
 
-    <TextView
+    <com.nmp90.hearmythoughts.ui.views.RobotoTextView
         android:id="@+id/item_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -35,4 +35,8 @@
     <color name="rounded_image_color">#FF222222</color>
     <color name="selected_gray">#ffdbdbdb</color>
 
+    <color name="bg_panel_sending">#515d6c</color>
+    <color name="msg_hint">#b8b8b8</color>
+    <color name="msg_text">#515d6c</color>
+
 </resources>

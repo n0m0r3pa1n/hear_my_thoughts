@@ -5,4 +5,21 @@
     <dimen name="txt_ordinary">20sp</dimen>
 
     <dimen name="navigation_drawer_width">240dp</dimen>
+
+    <!-- Chat Fragment -->
+    <dimen name="panel_send_height">70dp</dimen>
+    <dimen name="panel_sending_padding">10dp</dimen>
+    <dimen name="msg_box_height">48dp</dimen>
+    <dimen name="msg_box_padding">5dp</dimen>
+    <dimen name="msg_box_margin_right">10dp</dimen>
+    <dimen name="msg_send_btn_height">50dp</dimen>
+    <dimen name="msg_send_btn_text">24sp</dimen>
+
+    <!-- Message Layout -->
+    <dimen name="msg_item_padding">5dp</dimen>
+    <dimen name="avatar_size">60dp</dimen>
+    <dimen name="avatar_margin">5dp</dimen>
+    <dimen name="msg_padding_side">18dp</dimen>
+    <dimen name="msg_padding">5dp</dimen>
+    <dimen name="msg_text">20sp</dimen>
 </resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <ListView
+        android:id="@+id/message_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dip"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
+        android:layout_above="@+id/panel_sending" />
+
+    <LinearLayout
+        android:id="@+id/panel_sending"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/panel_send_height"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/panel_sending_padding"
+        android:gravity="center"
+        android:weightSum="1"
+        android:background="@color/bg_primary_light_green">
+
+        <com.nmp90.hearmythoughts.ui.views.RobotoEditText
+            android:id="@+id/msg_text_box"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/msg_box_height"
+            android:layout_weight="0.7"
+            android:layout_marginRight="@dimen/msg_box_margin_right"
+            android:padding="@dimen/msg_box_padding"
+            android:background="@drawable/shape_text_entry"
+            android:selectAllOnFocus="false"
+            android:hint="@string/hint_msg"
+            android:textColorHint="@color/msg_hint"
+            android:textColor="@android:color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1"
+            android:shadowColor="@android:color/white"
+            android:singleLine="true"
+            android:inputType="text|textNoSuggestions"
+            android:maxLines="1"
+            android:maxLength="150" />
+
+        <Button
+            android:id="@+id/send"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/msg_send_btn_height"
+            android:layout_weight="0.3"
+            android:background="@drawable/selector_btn_enter"
+            android:text="@string/send"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/msg_send_btn_text"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1"
+            android:shadowColor="@android:color/black" />
+
+    </LinearLayout>
+</RelativeLayout>

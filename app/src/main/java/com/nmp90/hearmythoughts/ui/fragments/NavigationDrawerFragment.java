@@ -23,9 +23,7 @@ import com.nmp90.hearmythoughts.ui.adapters.NavigationDrawerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by poliveira on 24/10/2014.
- */
+
 public class NavigationDrawerFragment extends Fragment implements NavigationDrawerCallbacks {
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";

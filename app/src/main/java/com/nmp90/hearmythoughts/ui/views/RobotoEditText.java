@@ -34,7 +34,7 @@ public class RobotoEditText extends EditText {
         Typeface font = Typeface.createFromAsset(context.getAssets(), "fonts/" + robotoFont
                 + ".ttf");
         setTypeface(font);
-        setTextColor(getResources().getColor(R.color.white));
+
         a.recycle();
     }
 
