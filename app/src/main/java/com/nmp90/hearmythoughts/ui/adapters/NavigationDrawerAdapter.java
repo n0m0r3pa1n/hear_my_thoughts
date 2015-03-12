@@ -43,7 +43,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     @Override
     public void onBindViewHolder(NavigationDrawerAdapter.ViewHolder viewHolder, final int i) {
         viewHolder.textView.setText(mData.get(i).getText());
-        viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getDrawable(), null, null, null);
+
 
         viewHolder.itemView.setOnTouchListener(new View.OnTouchListener() {
                                                    @Override
@@ -75,11 +75,17 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
                                                }
         );
 
-        //TODO: selected menu position, change layout accordingly
+        if(mData.get(i).getSelectedDrawable() != null && (mSelectedPosition == i || mTouchedPosition == i)) {
+            viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getSelectedDrawable(), null, null, null);
+        } else {
+            viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getDrawable(), null, null, null);
+        }
+
         if (mSelectedPosition == i || mTouchedPosition == i) {
             viewHolder.textView.setTextColor(Color.parseColor("#FF5722"));
             viewHolder.itemView.setBackgroundColor(viewHolder.itemView.getContext().getResources().getColor(R.color.selected_gray));
         } else {
+
             viewHolder.textView.setTextColor(Color.parseColor("#FFFFFF"));
             viewHolder.itemView.setBackgroundColor(Color.TRANSPARENT);
         }

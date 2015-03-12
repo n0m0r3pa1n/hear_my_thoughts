@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    android:background="@color/bg_primary_light_green"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.nmp90.hearmythoughts.ui.views.RobotoTextView
+        android:id="@+id/tv_streaming"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:text="Press the button to start streaming to all listeners"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <com.nmp90.hearmythoughts.ui.views.ProgressImageView
+        android:id="@+id/btn_dictate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/tv_streaming"
+        app:loading="false"
+        app:image="@drawable/ic_stream"
+        android:foregroundGravity="center" />
+
+    <com.nmp90.hearmythoughts.ui.views.RobotoEditText
+        android:id="@+id/et_dictation"
+        android:gravity="top|left"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:textColor="@color/black"
+        android:layout_below="@id/btn_dictate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

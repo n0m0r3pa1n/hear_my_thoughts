@@ -21,6 +21,7 @@
     <color name="drawer_menu_background">#f5f5f5</color>
     <color name="text_pink">#c63392</color>
     <color name="text_disabled_grey">#b2b2b2</color>
+    <color name="black">#ff000000</color>
 
     <color name="bg_primary_green">#4CAF50</color>
     <color name="bg_primary_dark_green">#388E3C</color>
@@ -39,4 +40,18 @@
     <color name="msg_hint">#b8b8b8</color>
     <color name="msg_text">#515d6c</color>
 
+    <!-- Progress Bar colors -->
+    <integer-array name="colors">
+        <item>@color/holo_blue_dark</item>
+        <item>@color/holo_yellow_dark</item>
+        <item>@color/holo_green_dark</item>
+        <item>@color/holo_purple_dark</item>
+        <item>@color/holo_red_dark</item>
+    </integer-array>
+
+    <color name="holo_blue_dark">#0099cc</color>
+    <color name="holo_yellow_dark">#ff8800</color>
+    <color name="holo_green_dark">#669900</color>
+    <color name="holo_purple_dark">#9933cc</color>
+    <color name="holo_red_dark">#cc0000</color>
 </resources>

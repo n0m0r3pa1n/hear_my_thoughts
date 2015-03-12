@@ -13,6 +13,7 @@ import com.nmp90.hearmythoughts.ui.fragments.ChatFragment;
 import com.nmp90.hearmythoughts.ui.fragments.NavigationDrawerCallbacks;
 import com.nmp90.hearmythoughts.ui.fragments.NavigationDrawerFragment;
 import com.nmp90.hearmythoughts.ui.fragments.teacher.MaterialsTeacherFragment;
+import com.nmp90.hearmythoughts.ui.fragments.teacher.StreamTeacherFragment;
 import com.nmp90.hearmythoughts.utils.WindowUtils;
 
 public class SessionActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
@@ -62,6 +63,7 @@ public class SessionActivity extends ActionBarActivity implements NavigationDraw
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, Constants.TAG_CHAT).commit();
                 break;
             case 1:
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, new StreamTeacherFragment(), Constants.TAG_STREAM).commit();
                 break;
             case 2:
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, new MaterialsTeacherFragment(), Constants.TAG_MATERIALS).commit();

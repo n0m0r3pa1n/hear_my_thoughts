@@ -19,4 +19,5 @@ public interface Constants {
     public static final String TAG_CREATE_SESSION = "CreateSessionFragment";
     public static final String TAG_CHAT = "ChatFragment";
     public static final String TAG_MATERIALS = "MaterialsFragment";
+    public static final String TAG_STREAM = "StreamFragment";
 }

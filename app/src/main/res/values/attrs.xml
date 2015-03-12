@@ -20,4 +20,9 @@
         <attr name="border_width" format="dimension" />
         <attr name="border_color" format="color" />
     </declare-styleable>
+    <declare-styleable name="ProgressImageView">
+        <attr name="image" format="reference" />
+        <attr name="loading" format="boolean" />
+    </declare-styleable>
+
 </resources>

@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dip"
+
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
         android:stackFromBottom="true"
