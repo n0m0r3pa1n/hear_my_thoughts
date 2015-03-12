@@ -17,6 +17,7 @@ import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.providers.speech.ISpeechRecognitionListener;
 import com.nmp90.hearmythoughts.providers.speech.SpeechRecognitionProvider;
 import com.nmp90.hearmythoughts.ui.views.ProgressImageView;
+import com.nmp90.hearmythoughts.utils.AudioUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,10 +66,12 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
     @OnClick(R.id.btn_dictate)
     public void setupDictation() {
         if(isRunning == true) {
+            AudioUtils.unmute();
             isRunning = false;
             btnDictate.setLoading(isRunning);
             SpeechRecognitionProvider.getSpeechRecognition().stopRecognition();
         } else {
+            AudioUtils.mute(getActivity());
             isRunning = true;
             btnDictate.setLoading(isRunning);
             SpeechRecognitionProvider.getSpeechRecognition().startRecognition(getActivity(), this);
@@ -92,5 +95,16 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
     @Override
     public void onDictationFinish() {
 
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if(isRunning) {
+            isRunning = false;
+            SpeechRecognitionProvider.getSpeechRecognition().stopRecognition();
+            btnDictate.setLoading(false);
+            AudioUtils.unmute();
+        }
     }
 }
