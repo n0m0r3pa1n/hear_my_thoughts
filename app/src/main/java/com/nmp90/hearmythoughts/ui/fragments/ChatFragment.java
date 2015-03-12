@@ -18,6 +18,10 @@ import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.models.Message;
 import com.nmp90.hearmythoughts.ui.adapters.MessagesAdapter;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
 /**
  * Created by nmp on 15-3-11.
  */
@@ -26,9 +30,15 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "com.naughtyspirit.snaproulette.app.fragments.ChatFragment";
 
     private View view;
-    private ListView msgList;
-    private EditText msgTextBox;
-    private Button send;
+
+    @InjectView(R.id.message_container)
+    ListView msgList;
+
+    @InjectView(R.id.msg_text_box)
+    EditText msgTextBox;
+
+    @InjectView(R.id.send)
+    Button send;
 
     private MessagesAdapter msgAdapter;
 
@@ -37,7 +47,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_chat, container, false);
-
+        ButterKnife.inject(this, view);
         initUI();
 
         return view;
@@ -46,14 +56,9 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     private void initUI() {
         ((ActionBarActivity) getActivity()).getSupportActionBar().show();
 
-        msgList = (ListView) view.findViewById(R.id.message_container);
         msgAdapter = new MessagesAdapter(getActivity());
         msgList.setAdapter(msgAdapter);
 
-        send = (Button) view.findViewById(R.id.send);
-        send.setOnClickListener(this);
-
-        msgTextBox = (EditText) view.findViewById(R.id.msg_text_box);
         msgTextBox.setImeActionLabel(getString(R.string.send), EditorInfo.IME_ACTION_SEND);
         msgTextBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -103,18 +108,23 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.send:
-                if (msgTextBox.getText() != null && msgTextBox.getText().toString().length() > 0) {
-                    Message message = new Message();
-                    message.setMessage(msgTextBox.getText().toString());
-                    message.setMine(true);
 
-                    //chatRoomCallback.onSendMessage(message.getMessage());
-
-                    msgAdapter.addMessage(message);
-
-                    msgTextBox.getText().clear();
-                }
                 break;
+        }
+    }
+
+    @OnClick(R.id.send)
+    public void sendMessage() {
+        if (msgTextBox.getText() != null && msgTextBox.getText().toString().length() > 0) {
+            Message message = new Message();
+            message.setMessage(msgTextBox.getText().toString());
+            message.setMine(true);
+
+            //chatRoomCallback.onSendMessage(message.getMessage());
+
+            msgAdapter.addMessage(message);
+
+            msgTextBox.getText().clear();
         }
     }
 }

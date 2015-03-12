@@ -2,7 +2,8 @@ package com.nmp90.hearmythoughts;
 
 import android.app.Application;
 
-import com.nmp90.hearmythoughts.utils.EventBusUtils;
+import com.nmp90.hearmythoughts.instances.EventBusInstance;
+import com.nmp90.hearmythoughts.instances.GsonInstance;
 import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
 
 /**
@@ -13,6 +14,7 @@ public class HearApplication extends Application {
     public void onCreate() {
         super.onCreate();
         SharedPrefsUtils.initInstance(this);
-        EventBusUtils.init();
+        EventBusInstance.init();
+        GsonInstance.init();
     }
 }

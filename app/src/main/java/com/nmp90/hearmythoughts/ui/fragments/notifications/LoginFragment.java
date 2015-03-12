@@ -15,18 +15,24 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.constants.Constants;
-import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
+import com.nmp90.hearmythoughts.events.UserLoginEvent;
+import com.nmp90.hearmythoughts.instances.EventBusInstance;
+import com.nmp90.hearmythoughts.models.Role;
+import com.nmp90.hearmythoughts.models.User;
+import com.nmp90.hearmythoughts.ui.MainActivity;
 
 /**
  * Created by nmp on 15-3-2.
  */
-public class LoginFragment extends BaseNotificationFragment implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class LoginFragment extends BaseNotificationFragment implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, MainActivity.MainActivityResultListener {
     public static final String TAG = LoginFragment.class.getSimpleName();
     private static final int RC_SIGN_IN = 0;
 
     private boolean isSignInClicked;
     private boolean isIntentInProgress;
+
+    private MainActivity activity;
 
     private ConnectionResult connectionResult;
     private GoogleApiClient googleApiClient;
@@ -94,8 +100,9 @@ public class LoginFragment extends BaseNotificationFragment implements View.OnCl
             }
         }
     }
-    @Override
-    public void onActivityResult(int requestCode, int responseCode, Intent intent) {
+
+
+    public void onMainActivityResult(int requestCode, int responseCode, Intent intent) {
         if (requestCode == RC_SIGN_IN) {
             if (responseCode != Activity.RESULT_OK) {
                 isSignInClicked = false;
@@ -107,6 +114,13 @@ public class LoginFragment extends BaseNotificationFragment implements View.OnCl
                 googleApiClient.connect();
             }
         }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = (MainActivity) activity;
+        ((MainActivity) activity).addOnActivityResultListener(this);
     }
 
     @Override
@@ -130,7 +144,8 @@ public class LoginFragment extends BaseNotificationFragment implements View.OnCl
         if (Plus.PeopleApi.getCurrentPerson(googleApiClient) != null) {
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient);
             String email = Plus.AccountApi.getAccountName(googleApiClient);
-            SharedPrefsUtils.setPreference(Constants.KEY_USER_EMAIL, email);
+
+            EventBusInstance.post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.TEACHER)));
         }
     }
 

@@ -11,10 +11,12 @@ public interface Constants {
     public static final String SPEECH_DEFAULT_LANGUAGE = "en";
 
     public static final String KEY_USER_EMAIL = "user_emal";
+    public static final String KEY_USER = "user";
 
     public static final String TAG_RECENT_SESSIONS = "RecentSessionsFragment";
     public static final String TAG_LOGIN = "LoginFragment";
     public static final String TAG_JOIN_SESSION  = "JoinSessionFragment";
     public static final String TAG_CREATE_SESSION = "CreateSessionFragment";
     public static final String TAG_CHAT = "ChatFragment";
+    public static final String TAG_MATERIALS = "MaterialsFragment";
 }

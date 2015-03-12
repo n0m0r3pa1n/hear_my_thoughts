@@ -1,4 +1,4 @@
-package com.nmp90.hearmythoughts.ui.fragments;
+package com.nmp90.hearmythoughts.ui.fragments.teacher;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.constants.Constants;
+import com.nmp90.hearmythoughts.ui.fragments.DictationFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.TimerTask;
 /**
  * Created by nmp on 15-3-11.
  */
-public class StreamFragment extends Fragment implements RecognitionListener {
+public class StreamTeacherFragment extends Fragment implements RecognitionListener {
     StringBuilder builder = new StringBuilder();
 
     public interface ContinuousDictationFragmentResultsCallback {

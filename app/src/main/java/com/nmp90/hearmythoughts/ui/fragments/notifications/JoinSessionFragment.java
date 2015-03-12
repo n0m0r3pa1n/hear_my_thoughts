@@ -13,31 +13,34 @@ import android.widget.EditText;
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.ui.SessionActivity;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
 /**
  * Created by nmp on 15-3-8.
  */
-public class JoinSessionFragment extends BaseNotificationFragment implements View.OnClickListener {
+public class JoinSessionFragment extends BaseNotificationFragment {
     public static final String TAG = JoinSessionFragment.class.getSimpleName();
 
-    private EditText etSessionCode;
+    @InjectView(R.id.et_session_code)
+    EditText etSessionCode;
+    @InjectView(R.id.btn_join)
+    Button btnJoin;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = getInflatedView(inflater, container, R.layout.fragment_join_session);
-        Button btnJoin = (Button) view.findViewById(R.id.btn_join);
-        etSessionCode = (EditText) view.findViewById(R.id.et_session_code);
-
-        btnJoin.setOnClickListener(this);
+        ButterKnife.inject(this, view);
         return view;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_join:
-                if(isSessionCodeValid()) {
-                    openSessionActivity();
-                }
-                break;
+    @OnClick(R.id.btn_join)
+    public void openSessionActivity() {
+        if(isSessionCodeValid()) {
+            getActivity().onBackPressed();
+            Intent intent = new Intent(getActivity(), SessionActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -49,11 +52,5 @@ public class JoinSessionFragment extends BaseNotificationFragment implements Vie
         }
 
         return true;
-    }
-
-    private void openSessionActivity() {
-        getActivity().onBackPressed();
-        Intent intent = new Intent(getActivity(), SessionActivity.class);
-        startActivity(intent);
     }
 }

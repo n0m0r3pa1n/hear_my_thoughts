@@ -1,25 +1,25 @@
 package com.nmp90.hearmythoughts.ui;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.constants.Constants;
+import com.nmp90.hearmythoughts.events.UserLoginEvent;
+import com.nmp90.hearmythoughts.instances.EventBusInstance;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.ui.fragments.RecentSessionsFragment;
 import com.nmp90.hearmythoughts.ui.fragments.notifications.LoginFragment;
 import com.nmp90.hearmythoughts.utils.WindowUtils;
+import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,6 +30,10 @@ public class MainActivity extends ActionBarActivity {
     private Button btnTranslate;
     private TextView tvText;
 
+    private LoginFragment loginFragment;
+
+    private List<MainActivityResultListener> onActivityResultListeners = new ArrayList<MainActivityResultListener>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +42,29 @@ public class MainActivity extends ActionBarActivity {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBar);
         setSupportActionBar(actionBar);
 
+        EventBusInstance.register(this);
+
         if(AuthProvider.isUserLoggedIn() == false) {
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new LoginFragment(), Constants.TAG_LOGIN).commit();
+            loginFragment = new LoginFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, loginFragment, Constants.TAG_LOGIN)
+                    .commit();
+        } else {
+            openRecentSessions();
+        }
+//        btnTranslate = (Button) findViewById(R.id.btn_translate);
+//        tvText = (TextView) findViewById(R.id.textView);
+
+    }
+
+    private void openRecentSessions() {
+        if(loginFragment != null && loginFragment.isVisible()) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.abc_fade_in, R.anim.alpha_out)
+                    .replace(R.id.container, new RecentSessionsFragment(), Constants.TAG_RECENT_SESSIONS)
+                    .commit();
         } else {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -47,11 +72,22 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new RecentSessionsFragment(), Constants.TAG_RECENT_SESSIONS)
                     .commit();
         }
-//        btnTranslate = (Button) findViewById(R.id.btn_translate);
-//        tvText = (TextView) findViewById(R.id.textView);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(onActivityResultListeners.size() > 0) {
+            for(int i=0; i < onActivityResultListeners.size(); i++) {
+                onActivityResultListeners.get(i).onMainActivityResult(requestCode, resultCode, data);
+            }
+        }
+    }
 
-
+    @Subscribe
+    public void userLogin(UserLoginEvent userLoginEvent) {
+        AuthProvider.setUser(userLoginEvent.getUser());
+        openRecentSessions();
     }
 
     @Override
@@ -74,5 +110,23 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBusInstance.unregister(this);
+    }
+
+    public void addOnActivityResultListener(MainActivityResultListener listener) {
+        onActivityResultListeners.add(listener);
+    }
+
+    public void removeOnActivityResultListener(MainActivityResultListener listener) {
+        onActivityResultListeners.remove(listener);
+    }
+
+    public interface MainActivityResultListener {
+        void onMainActivityResult(int requestCode, int resultCode, Intent data);
     }
 }

@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Hear My Thoughts</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
     <!-- Roboto typefaces -->
@@ -24,12 +23,24 @@
 
     <!-- Project Strings -->
     <string name="recent_sessions">Recent Sessions</string>
+    <string name="title_activity_session">My Session</string>
     <string name="drawer_open">Menu opened</string>
     <string name="drawer_close">Menu closed</string>
-    <string name="title_activity_session">SessionActivity</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="send">Send</string>
     <string name="hint_msg">Enter message</string>
+    <string name="write_markdown">Write Markdown here</string>
+
+
+    <!-- Dialog strings -->
+    <string name="please_wait">Please wait</string>
+    <string name="loading_">Loading...</string>
+    <string name="error">Error</string>
+    <string name="no_internet_connection_">No Internet Connection!</string>
+    <string name="settings">Settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
