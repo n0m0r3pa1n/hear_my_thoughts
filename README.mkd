@@ -32,6 +32,7 @@ The solutions consist of two parts:
 7. Screens -
 	1. [UML diagrams](./docs/Diagrams)
     2. [Mockups](./docs/Mockups)
+    3. [Screenshots at current stage](./docs/Screenshots)
 
 ##### [Technical specs](./docs/Tech/ANDROID.md)
 
