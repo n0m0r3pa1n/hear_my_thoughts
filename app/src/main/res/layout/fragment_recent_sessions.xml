@@ -4,6 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.nmp90.hearmythoughts.ui.views.RobotoTextView
+        android:id="@+id/tv_login_required"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login to view your recent sessions"/>
+
     <ListView
         android:id="@+id/lv_recent_sessions"
         android:layout_width="match_parent"
@@ -23,13 +32,14 @@
         fab:fab_addButtonPlusIconColor="@color/white"
         fab:fab_labelStyle="@style/menu_labels_style"
         android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="80dp"
         android:layout_marginEnd="16dp">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/action_join"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             fab:fab_icon="@drawable/ic_join"
             fab:fab_colorNormal="@color/accent_deep_orange"
             fab:fab_title="Join Session"
@@ -40,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_plusIconColor="@color/white"
+            fab:fab_stroke_visible="true"
             fab:fab_colorNormal="@color/accent_deep_orange"
             fab:fab_title="Create Session"
             fab:fab_colorPressed="@color/white"/>

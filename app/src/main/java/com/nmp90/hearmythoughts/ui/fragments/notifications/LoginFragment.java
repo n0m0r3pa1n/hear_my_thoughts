@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,11 @@ public class LoginFragment extends BaseNotificationFragment implements View.OnCl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         googleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -142,11 +148,21 @@ public class LoginFragment extends BaseNotificationFragment implements View.OnCl
     public void onConnected(Bundle connectionHint) {
         isSignInClicked = false;
         if (Plus.PeopleApi.getCurrentPerson(googleApiClient) != null) {
-            Person currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient);
+            final Person currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient);
             String email = Plus.AccountApi.getAccountName(googleApiClient);
 
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.abc_fade_in, R.anim.alpha_out, R.anim.abc_fade_in, R.anim.alpha_out)
+                    .remove(LoginFragment.this).commit();
+
             //EventBusInstance.post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.TEACHER)));
-            EventBusInstance.post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.STUDENT)));
+            new Handler().postDelayed(new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    EventBusInstance.post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.TEACHER)));
+                }
+            }), 500);
+
         }
     }
 

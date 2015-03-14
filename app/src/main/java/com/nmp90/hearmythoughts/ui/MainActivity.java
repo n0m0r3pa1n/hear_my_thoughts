@@ -2,6 +2,7 @@ package com.nmp90.hearmythoughts.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -11,13 +12,9 @@ import android.widget.TextView;
 
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.constants.Constants;
-import com.nmp90.hearmythoughts.events.UserLoginEvent;
 import com.nmp90.hearmythoughts.instances.EventBusInstance;
-import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.ui.fragments.RecentSessionsFragment;
-import com.nmp90.hearmythoughts.ui.fragments.notifications.LoginFragment;
 import com.nmp90.hearmythoughts.utils.WindowUtils;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +27,6 @@ public class MainActivity extends ActionBarActivity {
     private Button btnTranslate;
     private TextView tvText;
 
-    private LoginFragment loginFragment;
 
     private List<MainActivityResultListener> onActivityResultListeners = new ArrayList<MainActivityResultListener>();
 
@@ -42,36 +38,20 @@ public class MainActivity extends ActionBarActivity {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBar);
         setSupportActionBar(actionBar);
 
-        EventBusInstance.register(this);
-
-        if(AuthProvider.isUserLoggedIn() == false) {
-            loginFragment = new LoginFragment();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.container, loginFragment, Constants.TAG_LOGIN)
-                    .commit();
-        } else {
-            openRecentSessions();
-        }
-//        btnTranslate = (Button) findViewById(R.id.btn_translate);
-//        tvText = (TextView) findViewById(R.id.textView);
-
+        openRecentSessions();
     }
 
     private void openRecentSessions() {
-        if(loginFragment != null && loginFragment.isVisible()) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.abc_fade_in, R.anim.alpha_out)
-                    .replace(R.id.container, new RecentSessionsFragment(), Constants.TAG_RECENT_SESSIONS)
-                    .commit();
-        } else {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.abc_fade_in, R.anim.alpha_out)
-                    .add(R.id.container, new RecentSessionsFragment(), Constants.TAG_RECENT_SESSIONS)
-                    .commit();
-        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.abc_fade_in, R.anim.alpha_out)
+                .add(R.id.container, new RecentSessionsFragment(), Constants.TAG_RECENT_SESSIONS)
+                .commit();
+    }
+
+    private boolean isRecentSessionsVisible() {
+        Fragment recentSessions = getSupportFragmentManager().findFragmentByTag(Constants.TAG_RECENT_SESSIONS);
+        return (recentSessions != null) && (recentSessions.isVisible());
     }
 
     @Override
@@ -82,12 +62,6 @@ public class MainActivity extends ActionBarActivity {
                 onActivityResultListeners.get(i).onMainActivityResult(requestCode, resultCode, data);
             }
         }
-    }
-
-    @Subscribe
-    public void userLogin(UserLoginEvent userLoginEvent) {
-        AuthProvider.setUser(userLoginEvent.getUser());
-        openRecentSessions();
     }
 
     @Override

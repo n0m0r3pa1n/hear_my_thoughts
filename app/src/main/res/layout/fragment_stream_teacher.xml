@@ -11,7 +11,7 @@
         android:gravity="center"
         android:textSize="24sp"
         android:textColor="@color/white"
-        android:text="Press the button to start streaming to all listeners"
+        android:text="@string/start_streaming"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />

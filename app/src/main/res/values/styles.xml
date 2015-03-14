@@ -19,5 +19,6 @@
 
     <style name="menu_labels_style">
         <item name="android:textColor">@color/bg_primary_dark_green</item>
+        <item name="android:background">@color/white</item>
     </style>
 </resources>

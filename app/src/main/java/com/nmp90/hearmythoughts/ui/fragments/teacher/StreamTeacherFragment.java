@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nmp90.hearmythoughts.R;
@@ -32,7 +33,7 @@ import butterknife.OnClick;
 public class StreamTeacherFragment extends Fragment implements ISpeechRecognitionListener {
     public static final String TAG = StreamTeacherFragment.class.getSimpleName();
 
-    private boolean isRunning = false;
+    private boolean shoouldStopRecognition = false;
     private StringBuilder dictationBuilder = new StringBuilder();
 
     @InjectView(R.id.et_dictation)
@@ -40,6 +41,9 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
 
     @InjectView(R.id.btn_dictate)
     ProgressImageView btnDictate;
+
+    @InjectView(R.id.tv_streaming)
+    TextView tvStreaming;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,16 +69,18 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
 
     @OnClick(R.id.btn_dictate)
     public void setupDictation() {
-        if(isRunning == true) {
+        if(shoouldStopRecognition == true) {
             AudioUtils.unmute();
-            isRunning = false;
-            btnDictate.setLoading(isRunning);
+            shoouldStopRecognition = false;
+            tvStreaming.setText(getResources().getString(R.string.start_streaming));
+            btnDictate.setLoading(shoouldStopRecognition);
             SpeechRecognitionProvider.getSpeechRecognition().stopRecognition();
         } else {
-            AudioUtils.mute(getActivity());
-            isRunning = true;
-            btnDictate.setLoading(isRunning);
+            shoouldStopRecognition = true;
+            tvStreaming.setText(getResources().getString(R.string.streaming));
+            btnDictate.setLoading(shoouldStopRecognition);
             SpeechRecognitionProvider.getSpeechRecognition().startRecognition(getActivity(), this);
+            AudioUtils.mute(getActivity());
         }
     }
 
@@ -100,8 +106,8 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
     @Override
     public void onDetach() {
         super.onDetach();
-        if(isRunning) {
-            isRunning = false;
+        if(shoouldStopRecognition) {
+            shoouldStopRecognition = false;
             SpeechRecognitionProvider.getSpeechRecognition().stopRecognition();
             btnDictate.setLoading(false);
             AudioUtils.unmute();
