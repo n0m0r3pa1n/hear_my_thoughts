@@ -145,7 +145,8 @@ public class LoginFragment extends BaseNotificationFragment implements View.OnCl
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient);
             String email = Plus.AccountApi.getAccountName(googleApiClient);
 
-            EventBusInstance.post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.TEACHER)));
+            //EventBusInstance.post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.TEACHER)));
+            EventBusInstance.post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.STUDENT)));
         }
     }
 

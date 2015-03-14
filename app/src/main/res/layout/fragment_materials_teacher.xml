@@ -43,8 +43,4 @@
             android:src="@drawable/ic_send"/>
 
         </LinearLayout>
-
-
-
-
 </LinearLayout>

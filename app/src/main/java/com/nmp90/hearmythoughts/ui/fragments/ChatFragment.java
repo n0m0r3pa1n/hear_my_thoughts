@@ -25,9 +25,8 @@ import butterknife.OnClick;
 /**
  * Created by nmp on 15-3-11.
  */
-public class ChatFragment extends Fragment implements View.OnClickListener {
-
-    private static final String TAG = "com.naughtyspirit.snaproulette.app.fragments.ChatFragment";
+public class ChatFragment extends Fragment {
+    public static final String TAG = ChatFragment.class.getSimpleName();
 
     private View view;
 
@@ -102,15 +101,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         super.onDetach();
 
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.send:
-
-                break;
-        }
     }
 
     @OnClick(R.id.send)
