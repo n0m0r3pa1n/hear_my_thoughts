@@ -1,4 +1,4 @@
-package com.nmp90.hearmythoughts.ui.fragments;
+package com.nmp90.hearmythoughts.ui.fragments.drawers;
 
 /**
  * Created by nmp on 15-3-11.

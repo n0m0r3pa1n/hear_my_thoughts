@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp"
     android:background="@color/bg_primary_light_green"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.nmp90.hearmythoughts.ui.views.RobotoTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_streaming"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:layout_marginTop="20dp"
+        android:text="Stream is OFF. Waiting for lecturer."
+        />
+    <com.nmp90.hearmythoughts.ui.views.ProgressImageView
+        android:id="@+id/iv_streaming"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/tv_streaming"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:loading="false"
+        app:image="@drawable/ic_stream"
+        ></com.nmp90.hearmythoughts.ui.views.ProgressImageView>
+
     <com.nmp90.hearmythoughts.ui.views.RobotoEditText
+        android:layout_below="@id/iv_streaming"
+        android:background="@color/white"
         android:id="@+id/et_dictation"
         android:gravity="top|left"
         android:layout_marginTop="10dp"

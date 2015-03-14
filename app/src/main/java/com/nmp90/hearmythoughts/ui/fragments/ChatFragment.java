@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.models.Message;
+import com.nmp90.hearmythoughts.models.Role;
+import com.nmp90.hearmythoughts.models.User;
+import com.nmp90.hearmythoughts.providers.FakeDataProvider;
 import com.nmp90.hearmythoughts.ui.adapters.MessagesAdapter;
 
 import butterknife.ButterKnife;
@@ -55,7 +58,7 @@ public class ChatFragment extends Fragment {
     private void initUI() {
         ((ActionBarActivity) getActivity()).getSupportActionBar().show();
 
-        msgAdapter = new MessagesAdapter(getActivity());
+        msgAdapter = new MessagesAdapter(getActivity(), FakeDataProvider.getChatMessages());
         msgList.setAdapter(msgAdapter);
 
         msgTextBox.setImeActionLabel(getString(R.string.send), EditorInfo.IME_ACTION_SEND);
@@ -108,6 +111,7 @@ public class ChatFragment extends Fragment {
         if (msgTextBox.getText() != null && msgTextBox.getText().toString().length() > 0) {
             Message message = new Message();
             message.setMessage(msgTextBox.getText().toString());
+            message.setUser(new User("Georgi Mirchev", "http://cdn.mobcon.com/wp-content/uploads/2015/02/milan-nankov-bg.png", Role.STUDENT));
             message.setMine(true);
 
             //chatRoomCallback.onSendMessage(message.getMessage());

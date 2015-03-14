@@ -26,13 +26,20 @@
             android:clickable="true"
             android:layout_height="match_parent"/>
 
-        <!-- android:layout_marginTop="?android:attr/actionBarSize"-->
         <fragment
             android:id="@+id/fragment_drawer"
-            android:name="com.nmp90.hearmythoughts.ui.fragments.NavigationDrawerFragment"
+            android:name="com.nmp90.hearmythoughts.ui.fragments.drawers.NavigationDrawerFragment"
             android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:layout="@layout/fragment_navigation_drawer"/>
+
+        <fragment
+            android:id="@+id/fragment_chat_drawer"
+            android:name="com.nmp90.hearmythoughts.ui.fragments.drawers.ChatDrawerFragment"
+            android:layout_width="@dimen/navigation_drawer_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            app:layout="@layout/fragment_chat_drawer"/>
     </android.support.v4.widget.DrawerLayout>
 </RelativeLayout>

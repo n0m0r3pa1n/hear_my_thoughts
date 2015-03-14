@@ -10,14 +10,16 @@ import android.view.MenuItem;
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.ui.fragments.ChatFragment;
-import com.nmp90.hearmythoughts.ui.fragments.NavigationDrawerCallbacks;
-import com.nmp90.hearmythoughts.ui.fragments.NavigationDrawerFragment;
+import com.nmp90.hearmythoughts.ui.fragments.drawers.ChatDrawerFragment;
+import com.nmp90.hearmythoughts.ui.fragments.drawers.NavigationDrawerCallbacks;
+import com.nmp90.hearmythoughts.ui.fragments.drawers.NavigationDrawerFragment;
 import com.nmp90.hearmythoughts.ui.fragments.student.MaterialsStudentFragment;
 import com.nmp90.hearmythoughts.ui.fragments.student.StreamStudentFragment;
 import com.nmp90.hearmythoughts.utils.WindowUtils;
 
 public class SessionActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private ChatDrawerFragment mChatDrawerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +30,11 @@ public class SessionActivity extends ActionBarActivity implements NavigationDraw
         setSupportActionBar(actionBar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.fragment_drawer);
+        mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_drawer);
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), actionBar);
+
+        mChatDrawerFragment = (ChatDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_chat_drawer);
+        mChatDrawerFragment.setup(R.id.fragment_chat_drawer, (DrawerLayout) findViewById(R.id.drawer), actionBar);
     }
 
 

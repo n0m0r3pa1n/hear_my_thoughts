@@ -1,8 +1,6 @@
 package com.nmp90.hearmythoughts.ui.adapters;
 
 import android.content.Context;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +13,16 @@ import android.widget.TextView;
 
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.models.Message;
+import com.nmp90.hearmythoughts.ui.views.CircleImageView;
+import com.nmp90.hearmythoughts.utils.AudioUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.Optional;
 
 /**
  * Created by nmp on 15-3-11.
@@ -26,10 +31,9 @@ public class MessagesAdapter extends BaseAdapter implements Animation.AnimationL
 
     public static final String TAG = MessagesAdapter.class.getSimpleName();
 
-    private Context ctx;
+    private Context context;
     private List<Message> messages = new ArrayList<Message>();
 
-    private MediaPlayer mp;
     private Animation slideUp;
 
     private boolean isLastItemAnimated = true;
@@ -37,13 +41,36 @@ public class MessagesAdapter extends BaseAdapter implements Animation.AnimationL
     private ListView parent;
 
     static class ViewHolder {
+        @InjectView(R.id.message)
         TextView messageTv;
+
+        @Optional
+        @InjectView(R.id.tv_sender)
+        TextView sender;
+
+        @InjectView(R.id.avatar)
+        CircleImageView avatar;
+
+        ViewHolder(View view) {
+            ButterKnife.inject(this, view);
+        }
     }
 
-    public MessagesAdapter(Context ctx) {
-        this.ctx = ctx;
+    public MessagesAdapter(Context context) {
+        this.context = context;
 
-        slideUp = AnimationUtils.loadAnimation(this.ctx, R.anim.slide_up);
+        slideUp = AnimationUtils.loadAnimation(this.context, R.anim.slide_up);
+        if (slideUp != null) {
+            slideUp.setAnimationListener(this);
+            slideUp.setDuration(500);
+        }
+    }
+
+    public MessagesAdapter(Context context, List<Message> messages) {
+        this.context = context;
+        this.messages = messages;
+
+        slideUp = AnimationUtils.loadAnimation(this.context, R.anim.slide_up);
         if (slideUp != null) {
             slideUp.setAnimationListener(this);
             slideUp.setDuration(500);
@@ -60,7 +87,7 @@ public class MessagesAdapter extends BaseAdapter implements Animation.AnimationL
         Message message = messages.get(position);
 
         if (view == null) {
-            LayoutInflater inflater = LayoutInflater.from(ctx);
+            LayoutInflater inflater = LayoutInflater.from(context);
 
             if (message.isMine()) {
                 view = inflater.inflate(R.layout.view_msg_left, viewGroup, false);
@@ -68,11 +95,9 @@ public class MessagesAdapter extends BaseAdapter implements Animation.AnimationL
                 view = inflater.inflate(R.layout.view_msg_right, viewGroup, false);
             }
 
-            viewHolder = new ViewHolder();
+            viewHolder = new ViewHolder(view);
 
             if (view != null) {
-                viewHolder.messageTv = (TextView) view.findViewById(R.id.message);
-
                 view.setTag(viewHolder);
             }
 
@@ -80,7 +105,11 @@ public class MessagesAdapter extends BaseAdapter implements Animation.AnimationL
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        viewHolder.messageTv.setText(messages.get(position).getMessage());
+        Picasso.with(context).load(message.getUser().getIconUrl()).into(viewHolder.avatar);
+        if(viewHolder.sender != null) {
+            viewHolder.sender.setText(message.getUser().getName().split(" ")[0]);
+        }
+        viewHolder.messageTv.setText(message.getMessage());
         Linkify.addLinks(viewHolder.messageTv, Linkify.ALL);
 
         if (position == getCount() - 1 && !isLastItemAnimated && view != null)
@@ -95,26 +124,7 @@ public class MessagesAdapter extends BaseAdapter implements Animation.AnimationL
         isLastItemAnimated = false;
         notifyDataSetChanged();
 
-        playPopSound();
-    }
-
-    private void playPopSound() {
-        if(ctx == null)
-            return;
-
-        mp = MediaPlayer.create(ctx, R.raw.pop);
-        if(mp == null)
-            return;
-
-        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                mp.reset();
-                mp.release();
-            }
-        });
-        mp.start();
+        AudioUtils.playPopSound(context);
     }
 
     @Override

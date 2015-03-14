@@ -1,18 +1,19 @@
-package com.nmp90.hearmythoughts.ui.fragments;
+package com.nmp90.hearmythoughts.ui.fragments.drawers;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,6 +29,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREFERENCES_FILE = "my_app_settings"; //TODO: change this to your file
+
+    public static final String TAG = NavigationDrawerFragment.class.getSimpleName();
+
     private NavigationDrawerCallbacks mCallbacks;
     private RecyclerView mDrawerList;
     private View mFragmentContainerView;
@@ -92,6 +96,13 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
         mActionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                if(drawerView.getId() == R.id.fragment_drawer) {
+                    super.onDrawerSlide(drawerView, slideOffset);
+                }
+            }
+
+            @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 if (!isAdded()) return;
@@ -100,14 +111,16 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                if (!isAdded()) return;
-                if (!mUserLearnedDrawer) {
-                    mUserLearnedDrawer = true;
-                    saveSharedSetting(getActivity(), PREF_USER_LEARNED_DRAWER, "true");
-                }
+                if(drawerView.getId() == R.id.fragment_drawer) {
+                    super.onDrawerOpened(drawerView);
+                    if (!isAdded()) return;
+                    if (!mUserLearnedDrawer) {
+                        mUserLearnedDrawer = true;
+                        saveSharedSetting(getActivity(), PREF_USER_LEARNED_DRAWER, "true");
+                    }
 
-                getActivity().invalidateOptionsMenu();
+                    getActivity().invalidateOptionsMenu();
+                }
             }
         };
 
@@ -136,6 +149,11 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     public void onDetach() {
         super.onDetach();
         mCallbacks = null;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     public List<NavigationItem> getMenu() {

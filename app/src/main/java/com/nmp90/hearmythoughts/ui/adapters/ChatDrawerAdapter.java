@@ -1,5 +1,6 @@
 package com.nmp90.hearmythoughts.ui.adapters;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.models.NavigationItem;
+import com.nmp90.hearmythoughts.models.ChatItem;
 import com.nmp90.hearmythoughts.ui.fragments.drawers.NavigationDrawerCallbacks;
+import com.nmp90.hearmythoughts.ui.views.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -18,14 +21,16 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.ViewHolder> {
+public class ChatDrawerAdapter extends RecyclerView.Adapter<ChatDrawerAdapter.ViewHolder> {
+    private Context context;
 
-    private List<NavigationItem> mData;
+    private List<ChatItem> mData;
     private NavigationDrawerCallbacks mNavigationDrawerCallbacks;
     private int mSelectedPosition;
     private int mTouchedPosition = -1;
 
-    public NavigationDrawerAdapter(List<NavigationItem> data) {
+    public ChatDrawerAdapter(Context context, List<ChatItem> data) {
+        this.context = context;
         mData = data;
     }
 
@@ -38,13 +43,13 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     }
 
     @Override
-    public NavigationDrawerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_drawer, viewGroup, false);
+    public ChatDrawerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_chat, viewGroup, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(NavigationDrawerAdapter.ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(ChatDrawerAdapter.ViewHolder viewHolder, final int i) {
         viewHolder.textView.setText(mData.get(i).getText());
 
 
@@ -78,17 +83,11 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
                                                }
         );
 
-        if(mData.get(i).getSelectedDrawable() != null && (mSelectedPosition == i || mTouchedPosition == i)) {
-            viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getSelectedDrawable(), null, null, null);
-        } else {
-            viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getDrawable(), null, null, null);
-        }
-
+        Picasso.with(context).load(mData.get(i).getDrawableUrl()).resize(100,100).centerInside().into(viewHolder.ivPicture);
         if (mSelectedPosition == i || mTouchedPosition == i) {
             viewHolder.textView.setTextColor(Color.parseColor("#FF5722"));
             viewHolder.itemView.setBackgroundColor(viewHolder.itemView.getContext().getResources().getColor(R.color.selected_gray));
         } else {
-
             viewHolder.textView.setTextColor(Color.parseColor("#FFFFFF"));
             viewHolder.itemView.setBackgroundColor(Color.TRANSPARENT);
         }
@@ -118,6 +117,9 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.item_name)
         public TextView textView;
+
+        @InjectView(R.id.iv_user_picture)
+        public CircleImageView ivPicture;
 
         public ViewHolder(View itemView) {
             super(itemView);
