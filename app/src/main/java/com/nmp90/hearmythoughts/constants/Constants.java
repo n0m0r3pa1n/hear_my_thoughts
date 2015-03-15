@@ -12,6 +12,7 @@ public interface Constants {
 
     public static final String KEY_USER_EMAIL = "user_emal";
     public static final String KEY_USER = "user";
+    public static final String KEY_SESSION_TITLE = "session_title";
 
     public static final String TAG_RECENT_SESSIONS = "RecentSessionsFragment";
     public static final String TAG_LOGIN = "LoginFragment";

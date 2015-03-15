@@ -78,7 +78,7 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
     }
 
     private void loadAdapter() {
-        lvRecentSessions.setAdapter(new RecentSessionsAdapter(getActivity(), FakeDataProvider.getRecentSessions()));
+        lvRecentSessions.setAdapter(new RecentSessionsAdapter(getActivity(), FakeDataProvider.getRecentSessions(getActivity())));
     }
 
     @Override

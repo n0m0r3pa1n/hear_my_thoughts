@@ -21,6 +21,7 @@ import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
+    public static final String TAG = MainActivity.class.getSimpleName();
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private final int REQ_CODE_SPEECH_INPUT = 100;

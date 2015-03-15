@@ -5,10 +5,15 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 /**
  * Created by nmp on 15-3-7.
  */
 public class SharedPrefsUtils {
+    public static final String TAG = SharedPrefsUtils.class.getSimpleName();
+
     private static SharedPrefsUtils instance;
 
     private static Context context;
@@ -37,9 +42,11 @@ public class SharedPrefsUtils {
             return (T)((Integer)sharedPreferences.getInt(key, (Integer)defaultValue));
         } else if(defaultValue instanceof Boolean) {
             return (T)((Boolean)sharedPreferences.getBoolean(key, (Boolean)defaultValue));
-        } else {
+        } else if(defaultValue instanceof Boolean){
             return (T)((Long)sharedPreferences.getLong(key, (Long)defaultValue));
         }
+
+        return (T)((Boolean)true);
     }
 
     public static <T> void setPreference(String key, T value) {

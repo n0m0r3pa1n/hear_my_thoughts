@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.nmp90.hearmythoughts.R;
+import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.ui.SessionActivity;
+import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -39,6 +41,7 @@ public class JoinSessionFragment extends BaseNotificationFragment {
     public void openSessionActivity() {
         if(isSessionCodeValid()) {
             getActivity().onBackPressed();
+            SharedPrefsUtils.setPreference(Constants.KEY_SESSION_TITLE, getString(R.string.title_activity_session));
             Intent intent = new Intent(getActivity(), SessionActivity.class);
             startActivity(intent);
         }

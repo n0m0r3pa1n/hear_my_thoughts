@@ -1,12 +1,22 @@
 package com.nmp90.hearmythoughts.ui.fragments.notifications;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.nmp90.hearmythoughts.R;
+import com.nmp90.hearmythoughts.constants.Constants;
+import com.nmp90.hearmythoughts.ui.SessionActivity;
+import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by nmp on 15-3-8.
@@ -14,10 +24,36 @@ import com.nmp90.hearmythoughts.R;
 public class CreateSessionFragment extends BaseNotificationFragment {
     public static final String TAG = CreateSessionFragment.class.getSimpleName();
 
+    @InjectView(R.id.et_session_title)
+    EditText etSessionTitle;
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = getInflatedView(inflater, container, R.layout.fragment_create_session);
-
+        ButterKnife.inject(this, view);
         return view;
+    }
+
+    @OnClick(R.id.btn_create)
+    void openSessionActivity() {
+        if(isSessionCodeValid()) {
+            getActivity().onBackPressed();
+            Intent intent = new Intent(getActivity(), SessionActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private boolean isSessionCodeValid() {
+        String sessionCode = etSessionTitle.getText().toString();
+        if(TextUtils.isEmpty(sessionCode)) {
+            etSessionTitle.setError("Empty string is not allowed!");
+            return false;
+        }
+
+        SharedPrefsUtils.setPreference(Constants.KEY_SESSION_TITLE, sessionCode);
+
+        return true;
     }
 }

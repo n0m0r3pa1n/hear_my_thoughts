@@ -1,0 +1,58 @@
+[
+   {
+      "date":"2015.01.03",
+      "lecturer":"Ivan Petrov",
+      "pictureUrl":"http://cdn.mobcon.com/wp-content/uploads/2015/02/tim-messerschmidt2.png",
+      "title":"My Session 1",
+      "participants":27,
+      "id":""
+   },
+   {
+      "date":"2015.01.03",
+      "lecturer":"Georgi Dimitrov",
+      "pictureUrl":"http://cdn.mobcon.com/wp-content/uploads/2015/02/murat-yener.png",
+      "title":"My Session 2",
+      "participants":100,
+      "id":""
+   },
+   {
+      "date":"2015.01.03",
+      "lecturer":"Stoil Ivanov",
+      "pictureUrl":"http://cdn.mobcon.com/wp-content/uploads/2015/02/pic11.png",
+      "title":"My Session 3",
+      "participants":10,
+      "id":""
+   },
+   {
+      "date":"2015.01.03",
+      "lecturer":"Stoil Georgiev",
+      "pictureUrl":"http://cdn.mobcon.com/wp-content/uploads/2015/02/enrique-lopez.png",
+      "title":"My Session 4",
+      "participants":90,
+      "id":""
+   },
+   {
+      "date":"2015.01.03",
+      "lecturer":"Dimitar Todorov",
+      "pictureUrl":"http://cdn.mobcon.com/wp-content/uploads/2015/02/georgi-georgiev.png",
+      "title":"My Session 5",
+      "participants":11,
+      "id":""
+   },
+   {
+      "date":"2015.01.03",
+      "lecturer":"Ivan Dimitrov",
+      "pictureUrl":"http://cdn.mobcon.com/wp-content/uploads/2015/02/milan-nankov-bg.png",
+      "title":"My Session 6",
+      "participants":123,
+      "id":""
+   },
+   {
+      "date":"2015.01.03",
+      "lecturer":"Eleonora Todorova",
+      "pictureUrl":"http://cdn.mobcon.com/wp-content/uploads/2015/02/jeni-kyuchukovaa.png",
+      "title":"My Session 7",
+      "participants":28,
+      "id":""
+   }
+]

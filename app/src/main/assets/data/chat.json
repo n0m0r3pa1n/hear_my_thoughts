@@ -1,0 +1,47 @@
+[
+   {
+      "message":"Hello to everyone!",
+      "user":{
+         "iconUrl":"http://cdn.mobcon.com/wp-content/uploads/2015/02/milan-nankov-bg.png",
+         "name":"Georgi Mirchev",
+         "role":"STUDENT"
+      },
+      "isMine":false
+   },
+   {
+      "message":"Hello, nice to meet you!",
+      "user":{
+         "iconUrl":"http://cdn.mobcon.com/wp-content/uploads/2015/02/tim-messerschmidt2.png",
+         "name":"Ivan Petrov",
+         "role":"STUDENT"
+      },
+      "isMine":false
+   },
+   {
+      "message":"What is this lecture about?",
+      "user":{
+         "iconUrl":"http://cdn.mobcon.com/wp-content/uploads/2015/02/pic11.png",
+         "name":"Stoil Ivanov",
+         "role":"STUDENT"
+      },
+      "isMine":false
+   },
+   {
+      "message":"We are currently speaking about how to help deaf people in universities and schools.",
+      "user":{
+         "iconUrl":"http://cdn.mobcon.com/wp-content/uploads/2015/02/tim-messerschmidt2.png",
+         "name":"Ivan Petrov",
+         "role":"STUDENT"
+      },
+      "isMine":false
+   },
+   {
+      "message":"Nice!",
+      "user":{
+         "iconUrl":"http://cdn.mobcon.com/wp-content/uploads/2015/02/milan-nankov-bg.png",
+         "name":"Georgi Mirchev",
+         "role":"STUDENT"
+      },
+      "isMine":false
+   }
+]
