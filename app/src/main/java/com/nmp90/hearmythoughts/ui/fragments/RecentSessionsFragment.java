@@ -21,7 +21,7 @@ import com.nmp90.hearmythoughts.providers.FakeDataProvider;
 import com.nmp90.hearmythoughts.ui.adapters.RecentSessionsAdapter;
 import com.nmp90.hearmythoughts.ui.fragments.notifications.CreateSessionFragment;
 import com.nmp90.hearmythoughts.ui.fragments.notifications.JoinSessionFragment;
-import com.nmp90.hearmythoughts.ui.fragments.notifications.LoginFragment;
+import com.nmp90.hearmythoughts.ui.utils.NavUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -111,20 +111,17 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
 
     @Subscribe
     public void userLogin(UserLoginEvent userLoginEvent) {
-        AuthProvider.setUser(userLoginEvent.getUser());
+        AuthProvider.login(userLoginEvent.getUser());
         actionsMenu.setVisibility(View.VISIBLE);
         lvRecentSessions.setVisibility(View.VISIBLE);
         tvLoginRequired.setVisibility(View.GONE);
+        if(isAdded()) {
+            getActivity().supportInvalidateOptionsMenu();
+        }
     }
 
     private void showLoginFragment() {
-        getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.abc_fade_in, R.anim.alpha_out)
-                .add(R.id.container, new LoginFragment())
-                .addToBackStack(Constants.TAG_LOGIN)
-                .commit();
+        NavUtils.showLoginFragment(getActivity().getSupportFragmentManager(), false);
     }
 
     @Override

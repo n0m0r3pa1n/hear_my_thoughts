@@ -45,4 +45,6 @@
     <string name="no">No</string>
     <string name="start_streaming">Press the button to start streaming to all listeners</string>
     <string name="streaming">Streaming..</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_login">Login</string>
 </resources>

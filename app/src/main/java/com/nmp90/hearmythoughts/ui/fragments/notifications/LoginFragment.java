@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
@@ -17,20 +19,29 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.events.UserLoginEvent;
+import com.nmp90.hearmythoughts.events.UserLogoutEvent;
 import com.nmp90.hearmythoughts.instances.EventBusInstance;
 import com.nmp90.hearmythoughts.models.Role;
 import com.nmp90.hearmythoughts.models.User;
+import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.ui.MainActivity;
+import com.nmp90.hearmythoughts.ui.utils.NavUtils;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by nmp on 15-3-2.
  */
-public class LoginFragment extends BaseNotificationFragment implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
+public class LoginFragment extends BaseNotificationFragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, MainActivity.MainActivityResultListener {
     public static final String TAG = LoginFragment.class.getSimpleName();
     private static final int RC_SIGN_IN = 0;
+    public static final String KEY_LOGOUT = "logout";
 
     private boolean isSignInClicked;
+    private boolean isLogout;
     private boolean isIntentInProgress;
 
     private MainActivity activity;
@@ -38,11 +49,27 @@ public class LoginFragment extends BaseNotificationFragment implements View.OnCl
     private ConnectionResult connectionResult;
     private GoogleApiClient googleApiClient;
 
-    private SignInButton loginButton = null;
+    @InjectView(R.id.login_button)
+    SignInButton loginButton;
+
+    @InjectView(R.id.logout_button)
+    Button logoutButton;
+
+    @InjectView(R.id.tv_login_required)
+    TextView tvWarning;
+
+    public static LoginFragment newInstance(boolean isLogout) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(KEY_LOGOUT, isLogout);
+        LoginFragment fragment = new LoginFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isLogout = this.getArguments().getBoolean(KEY_LOGOUT);
     }
 
     @Override
@@ -59,20 +86,30 @@ public class LoginFragment extends BaseNotificationFragment implements View.OnCl
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = getInflatedView(inflater, container, R.layout.fragment_login);
-        loginButton = (SignInButton)
-                view.findViewById(R.id.login_button);
-        loginButton.setOnClickListener(this);
+        ButterKnife.inject(this, view);
+        if(isLogout) {
+            tvWarning.setText("Are you sure you want to logout?");
+            loginButton.setVisibility(View.GONE);
+            logoutButton.setVisibility(View.VISIBLE);
+        }
 
         return view;
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.login_button
-                && !googleApiClient.isConnecting()) {
+    @OnClick(R.id.login_button)
+    void login() {
+        if(!googleApiClient.isConnecting()) {
             isSignInClicked = true;
             resolveSignInError();
         }
+    }
+
+    @OnClick(R.id.logout_button)
+    void logout() {
+        Plus.AccountApi.clearDefaultAccount(googleApiClient);
+        AuthProvider.logout();
+        NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), this);
+        EventBusInstance.post(new UserLogoutEvent());
     }
 
     private void resolveSignInError() {
@@ -138,9 +175,10 @@ public class LoginFragment extends BaseNotificationFragment implements View.OnCl
     @Override
     public void onStop() {
         super.onStop();
-
-        if (googleApiClient.isConnected()) {
-            googleApiClient.disconnect();
+        if(googleApiClient != null) {
+            if (googleApiClient.isConnected()) {
+                googleApiClient.disconnect();
+            }
         }
     }
 
@@ -151,17 +189,18 @@ public class LoginFragment extends BaseNotificationFragment implements View.OnCl
             final Person currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient);
             String email = Plus.AccountApi.getAccountName(googleApiClient);
 
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.abc_fade_in, R.anim.alpha_out, R.anim.abc_fade_in, R.anim.alpha_out)
-                    .remove(LoginFragment.this).commit();
-
             //EventBusInstance.post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.TEACHER)));
-            new Handler().postDelayed(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    EventBusInstance.post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.TEACHER)));
+            if(!isLogout) {
+                if(isAdded()) {
+                    NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), this);
+                    new Handler().postDelayed(new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            EventBusInstance.post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.TEACHER)));
+                        }
+                    }), 500);
                 }
-            }), 500);
+            }
 
         }
     }

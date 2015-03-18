@@ -12,9 +12,13 @@ import android.widget.TextView;
 
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.constants.Constants;
+import com.nmp90.hearmythoughts.events.UserLogoutEvent;
 import com.nmp90.hearmythoughts.instances.EventBusInstance;
+import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.ui.fragments.RecentSessionsFragment;
+import com.nmp90.hearmythoughts.ui.utils.NavUtils;
 import com.nmp90.hearmythoughts.utils.WindowUtils;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +27,9 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private Button btnTranslate;
     private TextView tvText;
-
 
     private List<MainActivityResultListener> onActivityResultListeners = new ArrayList<MainActivityResultListener>();
 
@@ -36,6 +38,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         WindowUtils.setupLollipopScreen(this);
         setContentView(R.layout.activity_main);
+
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBar);
         setSupportActionBar(actionBar);
 
@@ -67,30 +70,48 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        if(AuthProvider.isUserLoggedIn()) {
+            getMenuInflater().inflate(R.menu.menu_main_logout, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_login:
+                NavUtils.showLoginFragment(getSupportFragmentManager(), false);
+                break;
+            case R.id.action_logout:
+                NavUtils.showLoginFragment(getSupportFragmentManager(), true);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBusInstance.register(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         EventBusInstance.unregister(this);
+    }
+
+    @Subscribe
+    public void userLoggedOut(UserLogoutEvent event) {
+        supportInvalidateOptionsMenu();
     }
 
     public void addOnActivityResultListener(MainActivityResultListener listener) {

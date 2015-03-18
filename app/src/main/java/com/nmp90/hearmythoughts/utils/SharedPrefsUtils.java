@@ -5,8 +5,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.nmp90.hearmythoughts.instances.GsonInstance;
+
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 /**
  * Created by nmp on 15-3-7.
@@ -42,11 +43,16 @@ public class SharedPrefsUtils {
             return (T)((Integer)sharedPreferences.getInt(key, (Integer)defaultValue));
         } else if(defaultValue instanceof Boolean) {
             return (T)((Boolean)sharedPreferences.getBoolean(key, (Boolean)defaultValue));
-        } else if(defaultValue instanceof Boolean){
+        } else if(defaultValue instanceof Long){
             return (T)((Long)sharedPreferences.getLong(key, (Long)defaultValue));
         }
 
         return (T)((Boolean)true);
+    }
+
+    public static <T> T getObject(String key, Class<T> classOfT) {
+        String value = getPreference(key, "");
+        return ((T)GsonInstance.getInstance().fromJson(value, (Type) classOfT));
     }
 
     public static <T> void setPreference(String key, T value) {

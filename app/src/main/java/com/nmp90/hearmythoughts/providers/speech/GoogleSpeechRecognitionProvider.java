@@ -34,7 +34,7 @@ public class GoogleSpeechRecognitionProvider implements RecognitionListener, ISp
         isRunning = true;
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Constants.SPEECH_DEFAULT_LANGUAGE);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Constants.SPEECH_BULGARIAN_LANGUAGE);
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, Constants.SPEECH_MAX_RESULTS);
         intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, Constants.SPEECH_COMPLETE_SILENCE);
         intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, Constants.SPEECH_COMPLETE_POSSIBLY_COMPLETE_SILEMNCE);
