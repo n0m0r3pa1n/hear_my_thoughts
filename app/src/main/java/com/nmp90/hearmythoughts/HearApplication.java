@@ -14,7 +14,5 @@ public class HearApplication extends Application {
     public void onCreate() {
         super.onCreate();
         SharedPrefsUtils.initInstance(this);
-        EventBusInstance.init();
-        GsonInstance.init();
     }
 }

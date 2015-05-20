@@ -24,7 +24,7 @@ public class FakeDataProvider {
     public static List<RecentSession> getRecentSessions(Context context) {
         String recentSessions = FileUtils.readFileFromAssets(context, "data/recent_sessions.json");
         Log.d(TAG, recentSessions);
-        ArrayList<RecentSession> sessions =  GsonInstance.fromJson(recentSessions, new TypeToken<ArrayList<RecentSession>>() {
+        ArrayList<RecentSession> sessions =  GsonInstance.getInstance().fromJson(recentSessions, new TypeToken<ArrayList<RecentSession>>() {
         }.getType());
 
         SharedPrefsUtils.setPreference("TEST", new ArrayList<RecentSession>());

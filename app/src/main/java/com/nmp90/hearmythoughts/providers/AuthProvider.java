@@ -20,7 +20,7 @@ public class AuthProvider {
     }
 
     public static User getUser() {
-        return GsonInstance.fromJson(SharedPrefsUtils.getPreference(Constants.KEY_USER, ""), User.class);
+        return GsonInstance.getInstance().fromJson(SharedPrefsUtils.getPreference(Constants.KEY_USER, ""), User.class);
     }
 
     public static void logout() {

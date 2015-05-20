@@ -100,13 +100,13 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        EventBusInstance.register(this);
+        EventBusInstance.getInstance().register(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        EventBusInstance.unregister(this);
+        EventBusInstance.getInstance().unregister(this);
     }
 
     @Subscribe

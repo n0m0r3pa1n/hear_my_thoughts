@@ -41,6 +41,6 @@ public class User extends BaseModel {
 
     @Override
     public String toString() {
-        return GsonInstance.toJson(this);
+        return GsonInstance.getInstance().toJson(this);
     }
 }

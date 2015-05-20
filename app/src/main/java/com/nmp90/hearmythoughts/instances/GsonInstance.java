@@ -14,29 +14,30 @@ import java.lang.reflect.Type;
  */
 public class GsonInstance {
 
-    private static Gson sGson;
-
-    public static void init() {
+    private static GsonInstance gsonInstance;
+    private Gson sGson;
+    private GsonInstance() {
         sGson = new Gson();
     }
 
-    public static Gson getInstance() {
-        if(sGson == null) {
-            init();
+
+    public static GsonInstance getInstance() {
+        if(gsonInstance == null) {
+            gsonInstance = new GsonInstance();
         }
 
-        return sGson;
+        return gsonInstance;
     }
 
-    public static <T> T fromJson(String json, Class<T> classOfT) throws JsonSyntaxException {
+    public <T> T fromJson(String json, Class<T> classOfT) throws JsonSyntaxException {
         return sGson.fromJson(json, classOfT);
     }
 
-    public static <T> T fromJson(String json, Type typeOfT) throws JsonSyntaxException {
+    public <T> T fromJson(String json, Type typeOfT) throws JsonSyntaxException {
         return sGson.fromJson(json, typeOfT);
     }
 
-    public static <T> T fromJsonWithToast(Context context, String json, Class<T> classOfT) {
+    public <T> T fromJsonWithToast(Context context, String json, Class<T> classOfT) {
         try {
             return sGson.fromJson(json, classOfT);
         } catch (JsonSyntaxException e) {
@@ -45,11 +46,11 @@ public class GsonInstance {
         }
     }
 
-    public static String toJson(Serializable dto) {
+    public String toJson(Serializable dto) {
         return sGson.toJson(dto);
     }
 
-    public static String toJson(Object object) {
+    public String toJson(Object object) {
         return sGson.toJson(object);
     }
 }

@@ -109,7 +109,7 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
         Plus.AccountApi.clearDefaultAccount(googleApiClient);
         AuthProvider.logout();
         NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), this);
-        EventBusInstance.post(new UserLogoutEvent());
+        EventBusInstance.getInstance().post(new UserLogoutEvent());
     }
 
     private void resolveSignInError() {
@@ -196,7 +196,7 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
                     new Handler().postDelayed(new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            EventBusInstance.post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.TEACHER)));
+                            EventBusInstance.getInstance().post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.TEACHER)));
                         }
                     }), 500);
                 }

@@ -53,7 +53,13 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBusInstance.register(this);
+        EventBusInstance.getInstance().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBusInstance.getInstance().unregister(this);
     }
 
     @Override
