@@ -22,4 +22,7 @@ public interface Constants {
     public static final String TAG_CHAT = "ChatFragment";
     public static final String TAG_MATERIALS = "MaterialsFragment";
     public static final String TAG_STREAM = "StreamFragment";
+
+    public static final String BASE_URL = "http://hear-my-thoughts.herokuapp.com";
+
 }

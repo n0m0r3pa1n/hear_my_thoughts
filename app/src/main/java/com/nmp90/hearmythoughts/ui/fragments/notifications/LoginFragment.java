@@ -40,11 +40,8 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
     private static final int RC_SIGN_IN = 0;
     public static final String KEY_LOGOUT = "logout";
 
-    private boolean isSignInClicked;
     private boolean isLogout;
     private boolean isIntentInProgress;
-
-    private MainActivity activity;
 
     private ConnectionResult connectionResult;
     private GoogleApiClient googleApiClient;
@@ -99,7 +96,6 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
     @OnClick(R.id.login_button)
     void login() {
         if(!googleApiClient.isConnecting()) {
-            isSignInClicked = true;
             resolveSignInError();
         }
     }
@@ -148,7 +144,6 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
     public void onMainActivityResult(int requestCode, int responseCode, Intent intent) {
         if (requestCode == RC_SIGN_IN) {
             if (responseCode != Activity.RESULT_OK) {
-                isSignInClicked = false;
             }
 
             isIntentInProgress = false;
@@ -162,7 +157,6 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = (MainActivity) activity;
         ((MainActivity) activity).addOnActivityResultListener(this);
     }
 
@@ -184,7 +178,6 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        isSignInClicked = false;
         if (Plus.PeopleApi.getCurrentPerson(googleApiClient) != null) {
             final Person currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient);
             String email = Plus.AccountApi.getAccountName(googleApiClient);
