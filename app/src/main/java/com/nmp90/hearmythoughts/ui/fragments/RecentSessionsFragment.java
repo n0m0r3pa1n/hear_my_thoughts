@@ -74,7 +74,7 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
         actionCreate.setOnClickListener(this);
         actionJoin.setOnClickListener(this);
 
-        if(AuthProvider.isUserLoggedIn() == false) {
+        if(AuthProvider.getInstance(getActivity()).isUserLoggedIn() == false) {
             actionsMenu.setVisibility(View.GONE);
             lvRecentSessions.setVisibility(View.GONE);
             tvLoginRequired.setVisibility(View.VISIBLE);
@@ -89,7 +89,7 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if(AuthProvider.isUserLoggedIn() == false) {
+        if(AuthProvider.getInstance(getActivity()).isUserLoggedIn() == false) {
             showLoginFragment();
             return;
         }
@@ -117,7 +117,7 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
 
     @Subscribe
     public void userLogin(UserLoginEvent userLoginEvent) {
-        AuthProvider.login(userLoginEvent.getUser());
+        AuthProvider.getInstance(getActivity()).login(userLoginEvent.getUser());
         actionsMenu.setVisibility(View.VISIBLE);
         lvRecentSessions.setVisibility(View.VISIBLE);
         tvLoginRequired.setVisibility(View.GONE);

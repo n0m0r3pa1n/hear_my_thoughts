@@ -52,7 +52,7 @@ public class CreateSessionFragment extends BaseNotificationFragment {
             return false;
         }
 
-        SharedPrefsUtils.setPreference(Constants.KEY_SESSION_TITLE, sessionCode);
+        SharedPrefsUtils.getInstance(getActivity()).setPreference(Constants.KEY_SESSION_TITLE, sessionCode);
 
         return true;
     }

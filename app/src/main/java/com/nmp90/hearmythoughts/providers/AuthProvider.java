@@ -1,5 +1,6 @@
 package com.nmp90.hearmythoughts.providers;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.nmp90.hearmythoughts.constants.Constants;
@@ -11,21 +12,35 @@ import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
  * Created by nmp on 15-3-7.
  */
 public class AuthProvider {
-    public static boolean isUserLoggedIn() {
-        return !TextUtils.isEmpty(SharedPrefsUtils.getPreference(Constants.KEY_USER, ""));
+    private Context context;
+    private static AuthProvider authProvider;
+    private AuthProvider(Context context) {
+        this.context = context;
     }
 
-    public static void login(User user) {
-        SharedPrefsUtils.setPreference(Constants.KEY_USER, user.toString());
+    public static AuthProvider getInstance(Context context) {
+        if(authProvider == null) {
+            authProvider = new AuthProvider(context);
+        }
+
+        return authProvider;
     }
 
-    public static User getUser() {
-        return GsonInstance.getInstance().fromJson(SharedPrefsUtils.getPreference(Constants.KEY_USER, ""), User.class);
+    public boolean isUserLoggedIn() {
+        return !TextUtils.isEmpty(SharedPrefsUtils.getInstance(context).getPreference(Constants.KEY_USER, ""));
     }
 
-    public static void logout() {
+    public void login(User user) {
+        SharedPrefsUtils.getInstance(context).setPreference(Constants.KEY_USER, user.toString());
+    }
+
+    public User getUser() {
+        return GsonInstance.getInstance().fromJson(SharedPrefsUtils.getInstance(context).getPreference(Constants.KEY_USER, ""), User.class);
+    }
+
+    public void logout() {
         if(isUserLoggedIn()) {
-            SharedPrefsUtils.setPreference(Constants.KEY_USER, "");
+            SharedPrefsUtils.getInstance(context).setPreference(Constants.KEY_USER, "");
         }
     }
 }

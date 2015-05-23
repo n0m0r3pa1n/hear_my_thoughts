@@ -7,8 +7,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.constants.Constants;
@@ -26,10 +24,6 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
-
-    private final int REQ_CODE_SPEECH_INPUT = 100;
-    private Button btnTranslate;
-    private TextView tvText;
 
     private List<MainActivityResultListener> onActivityResultListeners = new ArrayList<MainActivityResultListener>();
 
@@ -70,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(AuthProvider.isUserLoggedIn()) {
+        if(AuthProvider.getInstance(this).isUserLoggedIn()) {
             getMenuInflater().inflate(R.menu.menu_main_logout, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_main, menu);

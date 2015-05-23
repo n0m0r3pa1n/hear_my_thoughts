@@ -107,7 +107,7 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
     @OnClick(R.id.logout_button)
     void logout() {
         Plus.AccountApi.clearDefaultAccount(googleApiClient);
-        AuthProvider.logout();
+        AuthProvider.getInstance(getActivity()).logout();
         NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), this);
         EventBusInstance.getInstance().post(new UserLogoutEvent());
     }

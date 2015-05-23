@@ -27,7 +27,7 @@ public class SharedPrefsUtils {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
     }
 
-    public static SharedPrefsUtils initInstance(Context context) {
+    public static SharedPrefsUtils getInstance(Context context) {
         if(instance == null) {
             instance = new SharedPrefsUtils(context);
         }
@@ -36,7 +36,7 @@ public class SharedPrefsUtils {
     }
 
     @SuppressWarnings (value="unchecked")
-    public static <T extends Comparable> T getPreference(String key, T defaultValue) {
+    public <T extends Comparable> T getPreference(String key, T defaultValue) {
         if(defaultValue instanceof String) {
             return (T)sharedPreferences.getString(key, (String)defaultValue);
         } else if(defaultValue instanceof Integer) {
@@ -50,12 +50,12 @@ public class SharedPrefsUtils {
         return (T)((Boolean)true);
     }
 
-    public static <T> T getObject(String key, Class<T> classOfT) {
+    public <T> T getObject(String key, Class<T> classOfT) {
         String value = getPreference(key, "");
         return ((T)GsonInstance.getInstance().fromJson(value, (Type) classOfT));
     }
 
-    public static <T> void setPreference(String key, T value) {
+    public <T> void setPreference(String key, T value) {
         editor = sharedPreferences.edit();
         if(value instanceof String) {
             Log.d("SET STRING", "STRING");

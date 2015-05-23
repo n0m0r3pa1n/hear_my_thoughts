@@ -27,7 +27,7 @@ public class FakeDataProvider {
         ArrayList<RecentSession> sessions =  GsonInstance.getInstance().fromJson(recentSessions, new TypeToken<ArrayList<RecentSession>>() {
         }.getType());
 
-        SharedPrefsUtils.setPreference("TEST", new ArrayList<RecentSession>());
+        SharedPrefsUtils.getInstance(context).setPreference("TEST", new ArrayList<RecentSession>());
 
         return sessions;
     }

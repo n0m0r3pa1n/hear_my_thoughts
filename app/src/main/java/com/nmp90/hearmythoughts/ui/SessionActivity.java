@@ -36,7 +36,7 @@ public class SessionActivity extends ActionBarActivity implements NavigationDraw
         setSupportActionBar(actionBar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        String sessionTitle = SharedPrefsUtils.getPreference(Constants.KEY_SESSION_TITLE, "");
+        String sessionTitle = SharedPrefsUtils.getInstance(this).getPreference(Constants.KEY_SESSION_TITLE, "");
         if(!TextUtils.isEmpty(sessionTitle)) {
             setTitle(sessionTitle);
         }
@@ -73,7 +73,7 @@ public class SessionActivity extends ActionBarActivity implements NavigationDraw
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        if(AuthProvider.getUser().getRole() == Role.TEACHER) {
+        if(AuthProvider.getInstance(this).getUser().getRole() == Role.TEACHER) {
             switch (position) {
                 case 0:
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, new ChatFragment(), Constants.TAG_CHAT).commit();

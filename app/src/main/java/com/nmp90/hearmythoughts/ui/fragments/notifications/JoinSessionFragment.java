@@ -41,7 +41,7 @@ public class JoinSessionFragment extends BaseNotificationFragment {
     public void openSessionActivity() {
         if(isSessionCodeValid()) {
             getActivity().onBackPressed();
-            SharedPrefsUtils.setPreference(Constants.KEY_SESSION_TITLE, getString(R.string.title_activity_session));
+            SharedPrefsUtils.getInstance(getActivity()).setPreference(Constants.KEY_SESSION_TITLE, getString(R.string.title_activity_session));
             Intent intent = new Intent(getActivity(), SessionActivity.class);
             startActivity(intent);
         }
