@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +17,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.events.UserLoginEvent;
-import com.nmp90.hearmythoughts.events.UserLogoutEvent;
-import com.nmp90.hearmythoughts.instances.EventBusInstance;
-import com.nmp90.hearmythoughts.models.Role;
-import com.nmp90.hearmythoughts.models.User;
+import com.nmp90.hearmythoughts.api.UserAPI;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
+import com.nmp90.hearmythoughts.stores.users.UsersStore;
 import com.nmp90.hearmythoughts.ui.MainActivity;
 import com.nmp90.hearmythoughts.ui.utils.NavUtils;
 
@@ -105,7 +101,7 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
         Plus.AccountApi.clearDefaultAccount(googleApiClient);
         AuthProvider.getInstance(getActivity()).logout();
         NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), this);
-        EventBusInstance.getInstance().post(new UserLogoutEvent());
+        UsersStore.getInstance().post(new UsersStore.UserLogoutEvent());
     }
 
     private void resolveSignInError() {
@@ -186,12 +182,7 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
             if(!isLogout) {
                 if(isAdded()) {
                     NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), this);
-                    new Handler().postDelayed(new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            EventBusInstance.getInstance().post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.TEACHER)));
-                        }
-                    }), 500);
+                    UserAPI.loginUser(getActivity(), email, currentPerson.getDisplayName());
                 }
             }
 

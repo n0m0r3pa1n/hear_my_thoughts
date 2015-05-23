@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.models.NavigationItem;
+import com.nmp90.hearmythoughts.ui.models.NavigationItem;
 import com.nmp90.hearmythoughts.ui.adapters.NavigationDrawerAdapter;
 
 import java.util.ArrayList;

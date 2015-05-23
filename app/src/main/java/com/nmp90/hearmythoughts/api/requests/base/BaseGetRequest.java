@@ -7,10 +7,10 @@ import com.android.volley.Response;
  */
 public abstract class BaseGetRequest<T> extends BaseGsonRequest<T> {
 
-    public BaseGetRequest(String url, Class<T> responseClass, Response.ErrorListener listener) {
+    public BaseGetRequest(String url, Response.ErrorListener listener) {
         super(Method.GET, url, listener);
     }
 
 
-    public abstract void deliverResponse(T response);
+    public abstract void deliverResponse(String response);
 }

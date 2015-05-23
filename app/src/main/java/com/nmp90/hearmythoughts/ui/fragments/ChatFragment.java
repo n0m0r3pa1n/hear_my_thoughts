@@ -15,11 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.models.Message;
-import com.nmp90.hearmythoughts.models.Role;
-import com.nmp90.hearmythoughts.models.User;
+import com.nmp90.hearmythoughts.api.models.Token;
 import com.nmp90.hearmythoughts.providers.FakeDataProvider;
 import com.nmp90.hearmythoughts.ui.adapters.MessagesAdapter;
+import com.nmp90.hearmythoughts.ui.models.Message;
+import com.nmp90.hearmythoughts.ui.models.Role;
+import com.nmp90.hearmythoughts.ui.models.User;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -111,7 +112,7 @@ public class ChatFragment extends Fragment {
         if (msgTextBox.getText() != null && msgTextBox.getText().toString().length() > 0) {
             Message message = new Message();
             message.setMessage(msgTextBox.getText().toString());
-            message.setUser(new User("Georgi Mirchev", "http://cdn.mobcon.com/wp-content/uploads/2015/02/milan-nankov-bg.png", Role.STUDENT));
+            message.setUser(new User("Georgi Mirchev", "http://cdn.mobcon.com/wp-content/uploads/2015/02/milan-nankov-bg.png", Role.STUDENT, new Token("aaa")));
             message.setMine(true);
 
             //chatRoomCallback.onSendMessage(message.getMessage());

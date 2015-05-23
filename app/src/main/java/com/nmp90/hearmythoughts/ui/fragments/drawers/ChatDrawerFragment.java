@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.models.ChatItem;
+import com.nmp90.hearmythoughts.ui.models.ChatItem;
 import com.nmp90.hearmythoughts.providers.FakeDataProvider;
 import com.nmp90.hearmythoughts.ui.adapters.ChatDrawerAdapter;
 

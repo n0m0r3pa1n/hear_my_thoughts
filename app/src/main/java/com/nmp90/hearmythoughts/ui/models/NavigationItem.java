@@ -1,4 +1,4 @@
-package com.nmp90.hearmythoughts.models;
+package com.nmp90.hearmythoughts.ui.models;
 
 import android.graphics.drawable.Drawable;
 

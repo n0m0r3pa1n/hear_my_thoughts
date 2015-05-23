@@ -7,12 +7,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.nmp90.hearmythoughts.constants.Constants;
-import com.nmp90.hearmythoughts.instances.GsonInstance;
 
 /**
  * Created by nmp on 15-5-23.
  */
-public abstract class BaseGsonRequest<T> extends Request<T> {
+public abstract class BaseGsonRequest<T> extends Request<String> {
     public static final String TAG = BaseGsonRequest.class.getSimpleName();
     public static String BASE_URL = Constants.BASE_URL;
     private NetworkResponse networkResponse;
@@ -30,12 +29,12 @@ public abstract class BaseGsonRequest<T> extends Request<T> {
     }
 
     @Override
-    protected Response<T> parseNetworkResponse(NetworkResponse response) {
+    protected Response<String> parseNetworkResponse(NetworkResponse response) {
         networkResponse = response;
         try {
             String json = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
-            return Response.success(GsonInstance.getInstance().fromJson(json, clazz),
+            return Response.success(json,
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch(Exception e) {
             Log.d(TAG, "parseNetworkResponse " + e);
@@ -57,5 +56,5 @@ public abstract class BaseGsonRequest<T> extends Request<T> {
     };
 
     @Override
-    public abstract void deliverResponse(T response);
+    public abstract void deliverResponse(String response);
 }

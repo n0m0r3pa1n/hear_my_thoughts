@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.models.NavigationItem;
+import com.nmp90.hearmythoughts.ui.models.NavigationItem;
 import com.nmp90.hearmythoughts.ui.fragments.drawers.NavigationDrawerCallbacks;
 
 import java.util.List;

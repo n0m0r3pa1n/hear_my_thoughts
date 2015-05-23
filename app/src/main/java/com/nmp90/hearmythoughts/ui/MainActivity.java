@@ -10,9 +10,8 @@ import android.view.MenuItem;
 
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.constants.Constants;
-import com.nmp90.hearmythoughts.events.UserLogoutEvent;
-import com.nmp90.hearmythoughts.instances.EventBusInstance;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
+import com.nmp90.hearmythoughts.stores.users.UsersStore;
 import com.nmp90.hearmythoughts.ui.fragments.RecentSessionsFragment;
 import com.nmp90.hearmythoughts.ui.utils.NavUtils;
 import com.nmp90.hearmythoughts.utils.WindowUtils;
@@ -94,17 +93,17 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        EventBusInstance.getInstance().register(this);
+        UsersStore.getInstance().register(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        EventBusInstance.getInstance().unregister(this);
+        UsersStore.getInstance().unregister(this);
     }
 
     @Subscribe
-    public void userLoggedOut(UserLogoutEvent event) {
+    public void userLoggedOut(UsersStore.UserLogoutEvent event) {
         supportInvalidateOptionsMenu();
     }
 

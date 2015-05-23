@@ -1,7 +1,5 @@
 package com.nmp90.hearmythoughts.api.requests.base;
 
-import android.util.Log;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyLog;
 import com.nmp90.hearmythoughts.instances.GsonInstance;
@@ -25,12 +23,9 @@ public abstract class BasePostRequest<T> extends BaseGsonRequest<T> {
         if(body != null) {
             this.body = GsonInstance.getInstance().toJson(body);
         }
-        Log.d(TAG, "BasePostRequest ");
     }
 
-    public abstract Class<T> getParsedAppClass();
-
-    public abstract void deliverResponse(T response);
+    public abstract void deliverResponse(String response);
 
     protected String getRequestBody(Object object) {
         return GsonInstance.getInstance().toJson(object);

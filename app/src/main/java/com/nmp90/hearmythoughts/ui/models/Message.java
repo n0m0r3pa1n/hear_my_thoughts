@@ -1,4 +1,4 @@
-package com.nmp90.hearmythoughts.models;
+package com.nmp90.hearmythoughts.ui.models;
 
 /**
  * Created by nmp on 15-3-11.

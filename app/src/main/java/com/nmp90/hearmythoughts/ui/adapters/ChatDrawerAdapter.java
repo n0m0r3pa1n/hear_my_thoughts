@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.models.ChatItem;
+import com.nmp90.hearmythoughts.ui.models.ChatItem;
 import com.nmp90.hearmythoughts.ui.fragments.drawers.NavigationDrawerCallbacks;
 import com.nmp90.hearmythoughts.ui.views.CircleImageView;
 import com.squareup.picasso.Picasso;

@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.instances.GsonInstance;
-import com.nmp90.hearmythoughts.models.User;
+import com.nmp90.hearmythoughts.ui.models.User;
 import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
 
 /**

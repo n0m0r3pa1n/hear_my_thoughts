@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.models.Message;
+import com.nmp90.hearmythoughts.ui.models.Message;
 import com.nmp90.hearmythoughts.ui.views.CircleImageView;
 import com.nmp90.hearmythoughts.utils.AudioUtils;
 import com.squareup.picasso.Picasso;

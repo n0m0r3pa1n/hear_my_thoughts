@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.models.RecentSession;
+import com.nmp90.hearmythoughts.ui.models.RecentSession;
 import com.nmp90.hearmythoughts.ui.views.CircleImageView;
 import com.squareup.picasso.Picasso;
 

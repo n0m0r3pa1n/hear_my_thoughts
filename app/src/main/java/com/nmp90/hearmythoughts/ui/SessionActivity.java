@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.constants.Constants;
-import com.nmp90.hearmythoughts.models.Role;
+import com.nmp90.hearmythoughts.ui.models.Role;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.ui.fragments.ChatFragment;
 import com.nmp90.hearmythoughts.ui.fragments.drawers.ChatDrawerFragment;
