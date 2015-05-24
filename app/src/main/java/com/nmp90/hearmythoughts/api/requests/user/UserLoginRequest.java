@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.nmp90.hearmythoughts.api.actions.UserActions;
+import com.nmp90.hearmythoughts.constants.actions.UserActions;
 import com.nmp90.hearmythoughts.api.requests.base.BasePostRequest;
 import com.nmp90.hearmythoughts.events.ServerEvent;
 import com.nmp90.hearmythoughts.instances.EventBusInstance;

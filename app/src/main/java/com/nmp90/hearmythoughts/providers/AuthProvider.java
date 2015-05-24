@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.instances.GsonInstance;
+import com.nmp90.hearmythoughts.ui.models.Role;
 import com.nmp90.hearmythoughts.ui.models.User;
 import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
 
@@ -27,6 +28,11 @@ public class AuthProvider {
     }
 
     public boolean isUserLoggedIn() {
+        //TODO: Remove
+        if(TextUtils.isEmpty(SharedPrefsUtils.getInstance(context).getPreference(Constants.KEY_USER, ""))) {
+            login(new User("Georgi Mirchev", "", Role.TEACHER, "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1NTYxNzdjOGQwMjVlOTA5NjhhMzA2OTMiLCJpYXQiOjE0MzI0NTEwMTZ9.WWVLviT23dWLCGMbB4aRkvxKBG7fKTNqtZw1RKoiA2M"));
+        }
+
         return !TextUtils.isEmpty(SharedPrefsUtils.getInstance(context).getPreference(Constants.KEY_USER, ""));
     }
 

@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
-import com.nmp90.hearmythoughts.stores.users.UsersStore;
+import com.nmp90.hearmythoughts.stores.UsersStore;
 import com.nmp90.hearmythoughts.ui.fragments.RecentSessionsFragment;
 import com.nmp90.hearmythoughts.ui.utils.NavUtils;
 import com.nmp90.hearmythoughts.utils.WindowUtils;
@@ -93,13 +93,13 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        UsersStore.getInstance().register(this);
+        UsersStore.getInstance(this).register(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        UsersStore.getInstance().unregister(this);
+        UsersStore.getInstance(this).unregister(this);
     }
 
     @Subscribe

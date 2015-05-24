@@ -18,6 +18,13 @@ public abstract class BasePostRequest<T> extends BaseGsonRequest<T> {
 
     private String body = null;
 
+    public BasePostRequest(String url, Object body, Response.ErrorListener listener) {
+        super(Method.POST, url, listener);
+        if(body != null) {
+            this.body = GsonInstance.getInstance().toJson(body);
+        }
+    }
+
     public BasePostRequest(String url, Class<T> responseClass, Object body, Response.ErrorListener listener) {
         super(Method.POST, url, responseClass, listener);
         if(body != null) {

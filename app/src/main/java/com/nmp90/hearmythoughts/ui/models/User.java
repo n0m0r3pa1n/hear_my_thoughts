@@ -1,6 +1,5 @@
 package com.nmp90.hearmythoughts.ui.models;
 
-import com.nmp90.hearmythoughts.api.models.Token;
 import com.nmp90.hearmythoughts.instances.GsonInstance;
 
 /**
@@ -9,9 +8,9 @@ import com.nmp90.hearmythoughts.instances.GsonInstance;
 public class User extends BaseModel {
     private String name, iconUrl;
     private Role role;
-    private Token token;
+    private String token;
 
-    public User(String name, String iconUrl, Role role, Token token) {
+    public User(String name, String iconUrl, Role role, String token) {
         this.name = name;
         this.iconUrl = iconUrl;
         this.role = role;
@@ -42,11 +41,11 @@ public class User extends BaseModel {
         this.role = role;
     }
 
-    public Token getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(Token token) {
+    public void setToken(String token) {
         this.token = token;
     }
 

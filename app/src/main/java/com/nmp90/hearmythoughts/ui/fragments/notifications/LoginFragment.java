@@ -17,9 +17,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.api.UserAPI;
+import com.nmp90.hearmythoughts.api.UsersAPI;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
-import com.nmp90.hearmythoughts.stores.users.UsersStore;
+import com.nmp90.hearmythoughts.stores.UsersStore;
 import com.nmp90.hearmythoughts.ui.MainActivity;
 import com.nmp90.hearmythoughts.ui.utils.NavUtils;
 
@@ -101,7 +101,7 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
         Plus.AccountApi.clearDefaultAccount(googleApiClient);
         AuthProvider.getInstance(getActivity()).logout();
         NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), this);
-        UsersStore.getInstance().post(new UsersStore.UserLogoutEvent());
+        UsersStore.getInstance(getActivity()).post(new UsersStore.UserLogoutEvent());
     }
 
     private void resolveSignInError() {
@@ -182,7 +182,7 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
             if(!isLogout) {
                 if(isAdded()) {
                     NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), this);
-                    UserAPI.loginUser(getActivity(), email, currentPerson.getDisplayName());
+                    UsersAPI.loginUser(getActivity(), email, currentPerson.getDisplayName());
                 }
             }
 

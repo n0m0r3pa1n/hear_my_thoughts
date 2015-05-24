@@ -6,6 +6,10 @@ import com.nmp90.hearmythoughts.instances.GsonInstance;
  * Created by nmp on 15-5-23.
  */
 public class ServerEvent extends BaseEvent {
+    public ServerEvent(String data, String action, boolean isSuccess, String errorMessage) {
+        super(data, action, isSuccess, errorMessage);
+    }
+
     public ServerEvent(String data, String action) {
         super(data, action);
     }

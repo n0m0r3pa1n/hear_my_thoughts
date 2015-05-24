@@ -5,6 +5,7 @@ import android.util.Log;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.nmp90.hearmythoughts.constants.Constants;
 
@@ -57,4 +58,6 @@ public abstract class BaseGsonRequest<T> extends Request<String> {
 
     @Override
     public abstract void deliverResponse(String response);
+
+    public void onError(VolleyError error) {}
 }

@@ -1,5 +1,6 @@
 package com.nmp90.hearmythoughts.ui.fragments.notifications;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,9 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.nmp90.hearmythoughts.R;
+import com.nmp90.hearmythoughts.api.SessionsAPI;
 import com.nmp90.hearmythoughts.constants.Constants;
+import com.nmp90.hearmythoughts.events.ErrorEvent;
+import com.nmp90.hearmythoughts.stores.SessionsStore;
 import com.nmp90.hearmythoughts.ui.SessionActivity;
 import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -40,11 +45,33 @@ public class JoinSessionFragment extends BaseNotificationFragment {
     @OnClick(R.id.btn_join)
     public void openSessionActivity() {
         if(isSessionCodeValid()) {
-            getActivity().onBackPressed();
-            SharedPrefsUtils.getInstance(getActivity()).setPreference(Constants.KEY_SESSION_TITLE, getString(R.string.title_activity_session));
-            Intent intent = new Intent(getActivity(), SessionActivity.class);
-            startActivity(intent);
+            SessionsAPI.joinSession(getActivity(), etSessionCode.getText().toString());
         }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        SessionsStore.getInstance().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        SessionsStore.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void onSessionJoin(SessionsStore.SessionJoinedEvent event) {
+        getActivity().onBackPressed();
+        SharedPrefsUtils.getInstance(getActivity()).setPreference(Constants.KEY_SESSION_TITLE, event.getSession().getName());
+        Intent intent = new Intent(getActivity(), SessionActivity.class);
+        startActivity(intent);
+    }
+
+    @Subscribe
+    public void onError(ErrorEvent event) {
+        etSessionCode.setError("Wrong session code!");
     }
 
     private boolean isSessionCodeValid() {

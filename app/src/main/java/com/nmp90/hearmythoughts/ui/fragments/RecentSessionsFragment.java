@@ -16,7 +16,7 @@ import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.providers.FakeDataProvider;
-import com.nmp90.hearmythoughts.stores.users.UsersStore;
+import com.nmp90.hearmythoughts.stores.UsersStore;
 import com.nmp90.hearmythoughts.ui.adapters.RecentSessionsAdapter;
 import com.nmp90.hearmythoughts.ui.fragments.notifications.CreateSessionFragment;
 import com.nmp90.hearmythoughts.ui.fragments.notifications.JoinSessionFragment;
@@ -52,13 +52,13 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UsersStore.getInstance().register(this);
+        UsersStore.getInstance(getActivity()).register(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        UsersStore.getInstance().unregister(this);
+        UsersStore.getInstance(getActivity()).unregister(this);
     }
 
     @Override

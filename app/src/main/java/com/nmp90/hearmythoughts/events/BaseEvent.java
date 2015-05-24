@@ -7,8 +7,15 @@ public abstract class BaseEvent {
     private String data;
     private String action;
 
-    private boolean isSuccess;
+    private boolean isSuccess = true;
     private String errorMessage;
+
+    public BaseEvent(String data, String action, boolean isSuccess, String errorMessage) {
+        this.data = data;
+        this.action = action;
+        this.isSuccess = isSuccess;
+        this.errorMessage = errorMessage;
+    }
 
     public BaseEvent(String data, String action) {
         this.data = data;

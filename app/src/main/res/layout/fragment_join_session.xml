@@ -27,6 +27,7 @@
         <com.nmp90.hearmythoughts.ui.views.RobotoEditText
             android:id="@+id/et_session_code"
             android:hint="Example: 23afa12"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/notification_label"

@@ -1,5 +1,6 @@
 package com.nmp90.hearmythoughts.ui.fragments.notifications;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.nmp90.hearmythoughts.R;
+import com.nmp90.hearmythoughts.api.SessionsAPI;
 import com.nmp90.hearmythoughts.constants.Constants;
+import com.nmp90.hearmythoughts.stores.SessionsStore;
 import com.nmp90.hearmythoughts.ui.SessionActivity;
 import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -27,8 +31,6 @@ public class CreateSessionFragment extends BaseNotificationFragment {
     @InjectView(R.id.et_session_title)
     EditText etSessionTitle;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = getInflatedView(inflater, container, R.layout.fragment_create_session);
@@ -39,10 +41,27 @@ public class CreateSessionFragment extends BaseNotificationFragment {
     @OnClick(R.id.btn_create)
     void openSessionActivity() {
         if(isSessionCodeValid()) {
-            getActivity().onBackPressed();
-            Intent intent = new Intent(getActivity(), SessionActivity.class);
-            startActivity(intent);
+            SessionsAPI.createSession(getActivity(), etSessionTitle.getText().toString());
         }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        SessionsStore.getInstance().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        SessionsStore.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void onSessionCreated(SessionsStore.SessionCreatedEvent event) {
+        getActivity().onBackPressed();
+        Intent intent = new Intent(getActivity(), SessionActivity.class);
+        startActivity(intent);
     }
 
     private boolean isSessionCodeValid() {

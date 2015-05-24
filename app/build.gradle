@@ -38,6 +38,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.+'
     compile 'com.android.support:recyclerview-v7:21.0.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.0.2'
+    compile 'com.github.nkzawa:socket.io-client:0.3.0'
     compile files('libs/MarkdownView.jar')
     compile project(':volley')
 }
