@@ -35,8 +35,6 @@ public class StreamStudentFragment extends Fragment implements ISpeechRecognitio
         return view;
     }
 
-
-
     @Override
     public void onDictationStart() {
 

@@ -49,26 +49,15 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stream_teacher, container, false);
         ButterKnife.inject(this, view);
-        // Handling method for the button
-
-
-        PackageManager pm = getActivity().getPackageManager();
-        List<ResolveInfo> activities = pm.queryIntentActivities(
-                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
-        if (activities.size() != 0) {
-
-            //speakButton.setOnClickListener(this);
-        } else {
-            Toast.makeText(getActivity(), "Your phone does not support speech recognition", Toast.LENGTH_LONG).show();
-//            speakButton.setEnabled(false);
-//            speakButton.setText("Recognizer not present");
-        }
 
         return view;
     }
 
     @OnClick(R.id.btn_dictate)
     public void setupDictation() {
+        if(doesSupportSpeechRecognition() == false)
+            return;
+
         if(shoouldStopRecognition == true) {
             AudioUtils.unmute();
             shoouldStopRecognition = false;
@@ -84,7 +73,16 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
         }
     }
 
+    private boolean doesSupportSpeechRecognition() {
+        PackageManager pm = getActivity().getPackageManager();
+        List<ResolveInfo> activities = pm.queryIntentActivities(
+                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+        if (activities.size() == 0) {
+            Toast.makeText(getActivity(), "Your phone does not support speech recognition", Toast.LENGTH_LONG).show();
+        }
 
+        return false;
+    }
 
     @Override
     public void onDictationStart() {

@@ -15,7 +15,6 @@ import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.ui.models.Message;
 import com.nmp90.hearmythoughts.ui.views.CircleImageView;
 import com.nmp90.hearmythoughts.utils.AudioUtils;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +104,7 @@ public class MessagesAdapter extends BaseAdapter implements Animation.AnimationL
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        Picasso.with(context).load(message.getUser().getIconUrl()).into(viewHolder.avatar);
+        //Picasso.with(context).load(message.getUser().getIconUrl()).into(viewHolder.avatar);
         if(viewHolder.sender != null) {
             viewHolder.sender.setText(message.getUser().getName().split(" ")[0]);
         }

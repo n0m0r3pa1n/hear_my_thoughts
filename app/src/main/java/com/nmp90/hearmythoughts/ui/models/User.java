@@ -10,7 +10,26 @@ public class User extends BaseModel {
     private Role role;
     private String token;
 
+    public User(String name, String iconUrl) {
+        this.name = name;
+        this.iconUrl = iconUrl;
+    }
+
+    public User(String id, String name, String iconUrl) {
+        this.id = id;
+        this.name = name;
+        this.iconUrl = iconUrl;
+    }
+
     public User(String name, String iconUrl, Role role, String token) {
+        this.name = name;
+        this.iconUrl = iconUrl;
+        this.role = role;
+        this.token = token;
+    }
+
+    public User(String id, String name, String iconUrl, Role role, String token) {
+        this.id = id;
         this.name = name;
         this.iconUrl = iconUrl;
         this.role = role;

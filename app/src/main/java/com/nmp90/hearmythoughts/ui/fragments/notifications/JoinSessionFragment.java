@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.api.SessionsAPI;
+import com.nmp90.hearmythoughts.api.models.Session;
 import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.events.ErrorEvent;
 import com.nmp90.hearmythoughts.stores.SessionsStore;
@@ -45,7 +45,8 @@ public class JoinSessionFragment extends BaseNotificationFragment {
     @OnClick(R.id.btn_join)
     public void openSessionActivity() {
         if(isSessionCodeValid()) {
-            SessionsAPI.joinSession(getActivity(), etSessionCode.getText().toString());
+            onSessionJoin(new SessionsStore.SessionJoinedEvent(new Session("test", "test")));
+            //SessionsAPI.joinSession(getActivity(), etSessionCode.getText().toString());
         }
     }
 

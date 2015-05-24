@@ -32,7 +32,11 @@ public class Message {
     }
 
     public boolean isMine() {
-        return "Georgi Mirchev".equals(user.getName());
+        return isMine;
+//        if(TextUtils.isEmpty(user.getName()))
+//            return false;
+//
+//        return "Georgi Mirchev".equals(user.getName());
     }
 
     public void setMine(boolean isMine) {
