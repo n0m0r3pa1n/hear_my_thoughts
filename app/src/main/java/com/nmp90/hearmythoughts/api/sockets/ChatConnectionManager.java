@@ -46,9 +46,8 @@ public class ChatConnectionManager {
         @Override
         public void call(final Object... args) {
             JSONObject data = (JSONObject) args[0];
-            Log.d(TAG, " " + data.toString());
             try {
-                notifyListeners(new Message(data.getString("message"),
+                notifyMessageListeners(new Message(data.getString("message"),
                         GsonInstance.getInstance().fromJson(data.getString("user"), User.class)));
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -61,44 +60,112 @@ public class ChatConnectionManager {
         public void call(final Object... args) {
             JSONObject data = (JSONObject) args[0];
             try {
-                notifyListeners(new Message("",
-                        GsonInstance.getInstance().fromJson(data.getString("user"), User.class)));
+                notifyUserJoinedListeners(
+                        GsonInstance.getInstance().fromJson(data.getString("user"), User.class));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     };
-    private List<OnChatActionsListener> listeners = new ArrayList<OnChatActionsListener>();
 
-    public void addChatActionsListener(OnChatActionsListener listener) {
-        listeners.add(listener);
-        if(listeners.size() > 0 && !socket.connected()) {
-            socket.on("new message", onNewMessage);
-            socket.on("user joined", onUserJoin);
-            socket.connect();
+    private Emitter.Listener onUserLeft = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            JSONObject data = (JSONObject) args[0];
+            try {
+                notifyUserLeftListeners(
+                        GsonInstance.getInstance().fromJson(data.getString("user"), User.class));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private boolean isConnecting = false;
+    private boolean isDisconnecting = false;
+    private List<OnChatActionsListener> chatListeners = new ArrayList<OnChatActionsListener>();
+    private List<OnUserChatActionsListener> userListeners = new ArrayList<OnUserChatActionsListener>();
+
+    public synchronized void addChatListener(OnChatListener listener) {
+        if(listener instanceof  OnChatActionsListener) {
+            chatListeners.add((OnChatActionsListener) listener);
+        } else {
+            userListeners.add((OnUserChatActionsListener) listener);
+        }
+
+        Object threadLock = new Object();
+        synchronized (threadLock) {
+            if ((chatListeners.size() > 0 || userListeners.size() > 0) && !socket.connected()) {
+                if(!socket.hasListeners("new message")) {
+                    socket.on("new message", onNewMessage);
+                    socket.on("user joined", onUserJoin);
+                    socket.on("user left", onUserLeft);
+                    socket.connect();
+                }
+                else if (socket.hasListeners("new message") && !socket.connected()) {
+                    socket.connect();
+                }
+            }
         }
     }
 
-    public void removeChatActionsListener(OnChatActionsListener listener) {
-        int size = listeners.size();
+    public void removeChatListener(OnChatListener listener) {
+        int size = chatListeners.size();
+        if(listener instanceof  OnChatActionsListener) {
+            removeChatActionsListener((OnChatActionsListener) listener);
+        } else {
+            removeUserChatActionsListener((OnUserChatActionsListener) listener);
+        }
+
+        if(chatListeners.size() == 0 && userListeners.size() == 0 && socket.connected()) {
+            if(socket.hasListeners("new message"))
+                socket.disconnect();
+        }
+    }
+
+    private void removeChatActionsListener(OnChatActionsListener listener) {
+        int size = chatListeners.size();
         for (int i = 0; i < size; i++) {
-            if(listener == listeners.get(i)) {
-                listeners.remove(i);
+            if(listener == chatListeners.get(i)) {
+                chatListeners.remove(i);
                 break;
             }
         }
+    }
 
-        if(listeners.size() == 0 && socket.connected()) {
-            socket.disconnect();
+    private void removeUserChatActionsListener(OnUserChatActionsListener listener) {
+        int size = userListeners.size();
+        for (int i = 0; i < size; i++) {
+            if(listener == userListeners.get(i)) {
+                userListeners.remove(i);
+                break;
+            }
         }
     }
 
-    public void notifyListeners(Message message) {
-        int size = listeners.size();
+    public void notifyMessageListeners(Message message) {
+        int size = chatListeners.size();
         for (int i = 0; i < size; i++) {
-            OnChatActionsListener listener = listeners.get(i);
-            listener.onMessageReceived(message);
-            listener.onUserJoined(message.getUser());
+            if(chatListeners.get(i) instanceof OnChatActionsListener) {
+                OnChatActionsListener listener = (OnChatActionsListener) chatListeners.get(i);
+                listener.onMessageReceived(message);
+            }
+        }
+    }
+
+    public void notifyUserJoinedListeners(User user) {
+        int size = userListeners.size();
+        for (int i = 0; i < size; i++) {
+            OnUserChatActionsListener listener = userListeners.get(i);
+            listener.onUserJoined(user);
+        }
+    }
+
+    public void notifyUserLeftListeners(User user) {
+        int size = userListeners.size();
+        for (int i = 0; i < size; i++) {
+            OnUserChatActionsListener listener = userListeners.get(i);
+            listener.onUserLeft(user);
         }
     }
 
@@ -110,8 +177,17 @@ public class ChatConnectionManager {
         socket.emit("new message", message.getMessage(), sessionCode);
     }
 
-    public interface OnChatActionsListener {
+    public interface OnChatListener {
+
+    }
+
+    public interface OnChatActionsListener extends OnChatListener {
         void onMessageReceived(Message message);
+
+    }
+
+    public interface  OnUserChatActionsListener extends OnChatListener {
         void onUserJoined(User user);
+        void onUserLeft(User user);
     }
 }

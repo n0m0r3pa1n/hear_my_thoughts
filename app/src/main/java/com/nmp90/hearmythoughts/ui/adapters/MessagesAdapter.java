@@ -1,6 +1,7 @@
 package com.nmp90.hearmythoughts.ui.adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.ui.models.Message;
 import com.nmp90.hearmythoughts.ui.views.CircleImageView;
 import com.nmp90.hearmythoughts.utils.AudioUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +106,10 @@ public class MessagesAdapter extends BaseAdapter implements Animation.AnimationL
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        //Picasso.with(context).load(message.getUser().getIconUrl()).into(viewHolder.avatar);
+        if(!TextUtils.isEmpty(message.getUser().getIconUrl())) {
+            Picasso.with(context).load(message.getUser().getIconUrl()).into(viewHolder.avatar);
+        }
+
         if(viewHolder.sender != null) {
             viewHolder.sender.setText(message.getUser().getName().split(" ")[0]);
         }

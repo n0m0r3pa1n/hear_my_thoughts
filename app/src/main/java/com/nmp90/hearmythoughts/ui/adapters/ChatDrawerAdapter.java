@@ -3,6 +3,7 @@ package com.nmp90.hearmythoughts.ui.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +33,22 @@ public class ChatDrawerAdapter extends RecyclerView.Adapter<ChatDrawerAdapter.Vi
     public ChatDrawerAdapter(Context context, List<ChatItem> data) {
         this.context = context;
         mData = data;
+    }
+
+    public void addUser(ChatItem item) {
+        mData.add(item);
+        notifyDataSetChanged();
+    }
+
+    public void removeUser(ChatItem item) {
+        for (int i = 0; i < getItemCount(); i++) {
+            if(item.getText().equals(mData.get(i).getText())) {
+                mData.remove(i);
+                break;
+            }
+        }
+
+        notifyDataSetChanged();
     }
 
     public NavigationDrawerCallbacks getNavigationDrawerCallbacks() {
@@ -83,7 +100,10 @@ public class ChatDrawerAdapter extends RecyclerView.Adapter<ChatDrawerAdapter.Vi
                                                }
         );
 
-        Picasso.with(context).load(mData.get(i).getDrawableUrl()).resize(100,100).centerInside().into(viewHolder.ivPicture);
+        if(!TextUtils.isEmpty(mData.get(i).getDrawableUrl())) {
+            Picasso.with(context).load(mData.get(i).getDrawableUrl()).resize(100, 100).centerInside().into(viewHolder.ivPicture);
+        }
+
         if (mSelectedPosition == i || mTouchedPosition == i) {
             viewHolder.textView.setTextColor(Color.parseColor("#FF5722"));
             viewHolder.itemView.setBackgroundColor(viewHolder.itemView.getContext().getResources().getColor(R.color.selected_gray));

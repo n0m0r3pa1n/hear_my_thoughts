@@ -13,23 +13,40 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.ui.models.ChatItem;
+import com.nmp90.hearmythoughts.api.sockets.ChatConnectionManager;
+import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.providers.FakeDataProvider;
 import com.nmp90.hearmythoughts.ui.adapters.ChatDrawerAdapter;
+import com.nmp90.hearmythoughts.ui.models.ChatItem;
+import com.nmp90.hearmythoughts.ui.models.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by nmp on 15-3-14.
  */
-public class ChatDrawerFragment extends Fragment implements NavigationDrawerCallbacks {
+public class ChatDrawerFragment extends Fragment implements NavigationDrawerCallbacks, ChatConnectionManager.OnUserChatActionsListener {
     public static final String TAG = ChatDrawerFragment.class.getSimpleName();
 
     private RecyclerView mDrawerList;
     private View mFragmentContainerView;
     private DrawerLayout mDrawerLayout;
+    private ChatDrawerAdapter adapter;
 
     private int mCurrentSelectedPosition;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ChatConnectionManager.getInstance().addChatListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ChatConnectionManager.getInstance().removeChatListener(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,8 +57,8 @@ public class ChatDrawerFragment extends Fragment implements NavigationDrawerCall
         mDrawerList.setLayoutManager(layoutManager);
         mDrawerList.setHasFixedSize(true);
 
-        final List<ChatItem> navigationItems = getMenu();
-        ChatDrawerAdapter adapter = new ChatDrawerAdapter(getActivity(), navigationItems);
+        final List<ChatItem> navigationItems = new ArrayList<ChatItem>();
+        adapter = new ChatDrawerAdapter(getActivity(), navigationItems);
         adapter.setNavigationDrawerCallbacks(this);
         mDrawerList.setAdapter(adapter);
         selectItem(mCurrentSelectedPosition);
@@ -98,4 +115,31 @@ public class ChatDrawerFragment extends Fragment implements NavigationDrawerCall
         mDrawerLayout = drawerLayout;
     }
 
+    @Override
+    public void onUserJoined(final User user) {
+        if(!isAdded())
+            return;
+
+        if(user.getId().equals(AuthProvider.getInstance(getActivity()).getUser().getId()))
+            return;
+        getActivity().runOnUiThread(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.addUser(new ChatItem(user.getName(), user.getIconUrl()));
+            }
+        }));
+    }
+
+    @Override
+    public void onUserLeft(final User user) {
+        if(!isAdded())
+            return;
+        getActivity().runOnUiThread(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.removeUser(new ChatItem(user.getName(), user.getIconUrl()));
+            }
+        }));
+
+    }
 }

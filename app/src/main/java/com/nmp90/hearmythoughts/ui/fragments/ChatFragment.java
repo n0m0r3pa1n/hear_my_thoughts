@@ -1,6 +1,5 @@
 package com.nmp90.hearmythoughts.ui.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -21,7 +20,6 @@ import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.providers.FakeDataProvider;
 import com.nmp90.hearmythoughts.ui.adapters.MessagesAdapter;
 import com.nmp90.hearmythoughts.ui.models.Message;
-import com.nmp90.hearmythoughts.ui.models.User;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -88,17 +86,22 @@ public class ChatFragment extends Fragment implements OnChatActionsListener {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ChatConnectionManager.getInstance().addChatActionsListener(this);
+    public void onDetach() {
+        super.onDetach();
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ChatConnectionManager.getInstance().addChatListener(this);
         ChatConnectionManager.getInstance().addUserToChat(AuthProvider.getInstance(getActivity()).getUser(), "Test");
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
-        ChatConnectionManager.getInstance().removeChatActionsListener(this);
+    public void onPause() {
+        super.onPause();
+        ChatConnectionManager.getInstance().removeChatListener(this);
     }
 
     @OnClick(R.id.send)
@@ -124,10 +127,5 @@ public class ChatFragment extends Fragment implements OnChatActionsListener {
             }
         });
         getActivity().runOnUiThread(messageReceived);
-    }
-
-    @Override
-    public void onUserJoined(User user) {
-
     }
 }
