@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.nmp90.hearmythoughts.R;
-import com.nmp90.hearmythoughts.ui.models.RecentSession;
+import com.nmp90.hearmythoughts.api.models.RecentSession;
 import com.nmp90.hearmythoughts.ui.views.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -61,10 +61,11 @@ public class RecentSessionsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.tvLecturer.setText(session.getLecturer());
-        viewHolder.tvTitle.setText(session.getTitle());
-        viewHolder.tvDate.setText(session.getDate());
-        viewHolder.tvParticipants.setText(session.getParticipants() + "");
+        viewHolder.tvLecturer.setText(session.getLecturer().getName());
+        viewHolder.tvTitle.setText(session.getName());
+        String createdAt = session.getCreatedAt().split("T")[0];
+        viewHolder.tvDate.setText(createdAt);
+        viewHolder.tvParticipants.setText(session.getParticipants().size() + "");
         Picasso.with(context)
                 .load(session.getPictureUrl())
                 .into(viewHolder.ivLecturerPicture);

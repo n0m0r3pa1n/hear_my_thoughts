@@ -1,13 +1,17 @@
 package com.nmp90.hearmythoughts.stores;
 
 import com.nmp90.hearmythoughts.api.models.Session;
+import com.nmp90.hearmythoughts.api.models.RecentSessionsList;
 import com.nmp90.hearmythoughts.constants.actions.SessionActions;
 import com.nmp90.hearmythoughts.events.ErrorEvent;
 import com.nmp90.hearmythoughts.events.ServerEvent;
 import com.nmp90.hearmythoughts.events.UiEvent;
 import com.nmp90.hearmythoughts.instances.EventBusInstance;
+import com.nmp90.hearmythoughts.api.models.RecentSession;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
+import java.util.List;
 
 /**
  * Created by nmp on 15-5-24.
@@ -17,6 +21,7 @@ public class SessionsStore extends Bus {
     public static SessionsStore sessionsStore;
 
     private Session session;
+    private RecentSessionsList sessionsList;
 
     public SessionsStore() {
         super(TAG);
@@ -47,9 +52,17 @@ public class SessionsStore extends Bus {
                     this.post(new SessionJoinedEvent(session));
                 }
                 break;
+            case SessionActions.RECENT_SESSIONS:
+                sessionsList = event.getData(RecentSessionsList.class);
+                this.post(new RecentSessionsEvent(sessionsList.getSessions()));
+                break;
             default:
                 return;
         }
+    }
+
+    public RecentSessionsList getSessionsList() {
+        return sessionsList;
     }
 
     @Subscribe
@@ -67,16 +80,24 @@ public class SessionsStore extends Bus {
         public Session getSession() {
             return session;
         }
-
-        public void setSession(Session session) {
-            this.session = session;
-        }
     }
 
     public static class SessionJoinedEvent extends SessionCreatedEvent {
 
         public SessionJoinedEvent(Session session) {
             super(session);
+        }
+    }
+
+    public static class RecentSessionsEvent {
+        private List<RecentSession> recentSessionList;
+
+        public RecentSessionsEvent(List<RecentSession> recentSessionList) {
+            this.recentSessionList = recentSessionList;
+        }
+
+        public List<RecentSession> getRecentSessionList() {
+            return recentSessionList;
         }
     }
 }

@@ -3,6 +3,7 @@ package com.nmp90.hearmythoughts.api;
 import android.content.Context;
 
 import com.nmp90.hearmythoughts.api.requests.session.CreateSessionRequest;
+import com.nmp90.hearmythoughts.api.requests.session.GetRecentSessionRequest;
 import com.nmp90.hearmythoughts.api.requests.session.JoinSessionRequest;
 import com.nmp90.hearmythoughts.instances.VolleyInstance;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
@@ -23,5 +24,9 @@ public class SessionsAPI {
 
     public static void joinSession(Context context, String shortCode) {
         VolleyInstance.getInstance(context).addToRequestQueue(new JoinSessionRequest(shortCode, context));
+    }
+
+    public static void getRecentSessions(Context context) {
+        VolleyInstance.getInstance(context).addToRequestQueue(new GetRecentSessionRequest(context, null));
     }
 }

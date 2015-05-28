@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,20 @@ import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.nmp90.hearmythoughts.R;
+import com.nmp90.hearmythoughts.api.SessionsAPI;
+import com.nmp90.hearmythoughts.api.models.RecentSession;
 import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
+import com.nmp90.hearmythoughts.stores.SessionsStore;
 import com.nmp90.hearmythoughts.stores.UsersStore;
 import com.nmp90.hearmythoughts.ui.adapters.RecentSessionsAdapter;
 import com.nmp90.hearmythoughts.ui.fragments.notifications.CreateSessionFragment;
 import com.nmp90.hearmythoughts.ui.fragments.notifications.JoinSessionFragment;
-import com.nmp90.hearmythoughts.ui.models.RecentSession;
 import com.nmp90.hearmythoughts.ui.utils.NavUtils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -52,14 +56,18 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
     TextView tvLoginRequired;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
+        SessionsStore.getInstance().register(this);
         UsersStore.getInstance(getActivity()).register(this);
+        SessionsAPI.getRecentSessions(getActivity());
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDetach() {
+        super.onDetach();
+        SessionsStore.getInstance().unregister(this);
         UsersStore.getInstance(getActivity()).unregister(this);
     }
 
@@ -70,7 +78,7 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
 
         ButterKnife.inject(this, view);
         //lvRecentSessions.addHeaderView(headerView);
-        loadAdapter();
+        loadAdapter(new ArrayList<RecentSession>());
 
         actionCreate.setOnClickListener(this);
         actionJoin.setOnClickListener(this);
@@ -84,8 +92,8 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
         return view;
     }
 
-    private void loadAdapter() {
-        lvRecentSessions.setAdapter(new RecentSessionsAdapter(getActivity(), new ArrayList<RecentSession>()));
+    private void loadAdapter(List<RecentSession> recentSessions) {
+        lvRecentSessions.setAdapter(new RecentSessionsAdapter(getActivity(), recentSessions));
     }
 
     @Override
@@ -127,13 +135,15 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
         }
     }
 
+    @Subscribe
+    public void onRecentSessionsReceived(SessionsStore.RecentSessionsEvent event) {
+        Log.d(TAG, "onRecentSessionsReceived " + event.getRecentSessionList());
+        loadAdapter(event.getRecentSessionList());
+    }
+
     private void showLoginFragment() {
         NavUtils.showLoginFragment(getActivity().getSupportFragmentManager(), false);
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.activity = activity;
-    }
+
 }
