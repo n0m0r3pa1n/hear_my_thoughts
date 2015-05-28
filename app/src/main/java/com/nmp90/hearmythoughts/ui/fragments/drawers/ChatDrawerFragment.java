@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.api.sockets.ChatConnectionManager;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
-import com.nmp90.hearmythoughts.providers.FakeDataProvider;
 import com.nmp90.hearmythoughts.ui.adapters.ChatDrawerAdapter;
 import com.nmp90.hearmythoughts.ui.models.ChatItem;
 import com.nmp90.hearmythoughts.ui.models.User;
@@ -78,10 +77,6 @@ public class ChatDrawerFragment extends Fragment implements NavigationDrawerCall
 
     public void closeDrawer() {
         mDrawerLayout.closeDrawer(mFragmentContainerView);
-    }
-
-    public List<ChatItem> getMenu() {
-        return FakeDataProvider.getUsersInChat();
     }
 
     void selectItem(int position) {

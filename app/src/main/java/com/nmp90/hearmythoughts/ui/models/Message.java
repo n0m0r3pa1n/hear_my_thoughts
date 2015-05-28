@@ -10,6 +10,10 @@ public class Message {
 
     public Message() {}
 
+    public Message(String message) {
+        this.message = message;
+    }
+
     public Message(String message, User user) {
         this.message = message;
         this.user = user;

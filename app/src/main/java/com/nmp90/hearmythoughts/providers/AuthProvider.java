@@ -45,7 +45,7 @@ public class AuthProvider {
     public User getUser() {
         //TODO: Remove
         if(TextUtils.isEmpty(SharedPrefsUtils.getInstance(context).getPreference(Constants.KEY_USER, ""))) {
-            login(new User("123"+ new Random().nextInt(), "Georgi Mirchev" + new Random().nextInt(), "", Role.TEACHER, "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1NTYxNzdjOGQwMjVlOTA5NjhhMzA2OTMiLCJpYXQiOjE0MzI0NTEwMTZ9.WWVLviT23dWLCGMbB4aRkvxKBG7fKTNqtZw1RKoiA2M"));
+            login(new User("123"+ new Random().nextInt(), "Georgi Mirchev" + new Random().nextInt(), "", Role.STUDENT, "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1NTYxNzdjOGQwMjVlOTA5NjhhMzA2OTMiLCJpYXQiOjE0MzI0NTEwMTZ9.WWVLviT23dWLCGMbB4aRkvxKBG7fKTNqtZw1RKoiA2M"));
         }
         return GsonInstance.getInstance().fromJson(SharedPrefsUtils.getInstance(context).getPreference(Constants.KEY_USER, ""), User.class);
     }

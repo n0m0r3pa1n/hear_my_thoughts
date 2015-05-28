@@ -15,13 +15,15 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
-import com.nmp90.hearmythoughts.providers.FakeDataProvider;
 import com.nmp90.hearmythoughts.stores.UsersStore;
 import com.nmp90.hearmythoughts.ui.adapters.RecentSessionsAdapter;
 import com.nmp90.hearmythoughts.ui.fragments.notifications.CreateSessionFragment;
 import com.nmp90.hearmythoughts.ui.fragments.notifications.JoinSessionFragment;
+import com.nmp90.hearmythoughts.ui.models.RecentSession;
 import com.nmp90.hearmythoughts.ui.utils.NavUtils;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -83,7 +85,7 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
     }
 
     private void loadAdapter() {
-        lvRecentSessions.setAdapter(new RecentSessionsAdapter(getActivity(), FakeDataProvider.getRecentSessions(getActivity())));
+        lvRecentSessions.setAdapter(new RecentSessionsAdapter(getActivity(), new ArrayList<RecentSession>()));
     }
 
     @Override

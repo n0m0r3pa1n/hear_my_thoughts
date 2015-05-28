@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nmp90.hearmythoughts.R;
+import com.nmp90.hearmythoughts.api.sockets.StreamConnectionManager;
+import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.providers.speech.ISpeechRecognitionListener;
 import com.nmp90.hearmythoughts.providers.speech.SpeechRecognitionProvider;
 import com.nmp90.hearmythoughts.ui.views.ProgressImageView;
@@ -50,13 +52,17 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
         View view = inflater.inflate(R.layout.fragment_stream_teacher, container, false);
         ButterKnife.inject(this, view);
 
+        StreamConnectionManager.getInstance().addUserToStream(AuthProvider.getInstance(getActivity()).getUser(), "Test");
         return view;
     }
 
     @OnClick(R.id.btn_dictate)
     public void setupDictation() {
-        if(doesSupportSpeechRecognition() == false)
+        if(doesSupportSpeechRecognition() == false) {
+            StreamConnectionManager.getInstance().sendStream(etStream.getText().toString(), "Test");
+            StreamConnectionManager.getInstance().sendStreamStatus(true, "Test");
             return;
+        }
 
         if(shoouldStopRecognition == true) {
             AudioUtils.unmute();
@@ -64,12 +70,14 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
             tvStreaming.setText(getResources().getString(R.string.start_streaming));
             btnDictate.setLoading(shoouldStopRecognition);
             SpeechRecognitionProvider.getSpeechRecognition().stopRecognition();
+            StreamConnectionManager.getInstance().sendStreamStatus(false, "Test");
         } else {
             shoouldStopRecognition = true;
             tvStreaming.setText(getResources().getString(R.string.streaming));
             btnDictate.setLoading(shoouldStopRecognition);
             SpeechRecognitionProvider.getSpeechRecognition().startRecognition(getActivity(), this);
             AudioUtils.mute(getActivity());
+            StreamConnectionManager.getInstance().sendStreamStatus(true, "Test");
         }
     }
 
@@ -92,7 +100,9 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
     @Override
     public void onResults(ArrayList<String> dictationResults) {
         Log.d(TAG, dictationResults.get(0));
+
         dictationBuilder.append(dictationResults.get(0) + " ");
+        StreamConnectionManager.getInstance().sendStream(dictationBuilder.toString(), "Test");
         etStream.setText(dictationBuilder.toString());
     }
 
@@ -104,6 +114,7 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
     @Override
     public void onDetach() {
         super.onDetach();
+        StreamConnectionManager.getInstance().sendStreamStatus(false, "Test");
         if(shoouldStopRecognition) {
             shoouldStopRecognition = false;
             SpeechRecognitionProvider.getSpeechRecognition().stopRecognition();

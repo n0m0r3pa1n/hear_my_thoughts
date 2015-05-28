@@ -81,8 +81,6 @@ public class ChatConnectionManager {
         }
     };
 
-    private boolean isConnecting = false;
-    private boolean isDisconnecting = false;
     private List<OnChatActionsListener> chatListeners = new ArrayList<OnChatActionsListener>();
     private List<OnUserChatActionsListener> userListeners = new ArrayList<OnUserChatActionsListener>();
 
@@ -170,6 +168,10 @@ public class ChatConnectionManager {
     }
 
     public void addUserToChat(User user, String sessionCode) {
+        if(socket.connected() == false) {
+            socket.connect();
+        }
+
         socket.emit("add user", user, sessionCode);
     }
 

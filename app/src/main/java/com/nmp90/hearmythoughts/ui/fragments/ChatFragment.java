@@ -17,9 +17,10 @@ import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.api.sockets.ChatConnectionManager;
 import com.nmp90.hearmythoughts.api.sockets.ChatConnectionManager.OnChatActionsListener;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
-import com.nmp90.hearmythoughts.providers.FakeDataProvider;
 import com.nmp90.hearmythoughts.ui.adapters.MessagesAdapter;
 import com.nmp90.hearmythoughts.ui.models.Message;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -55,7 +56,7 @@ public class ChatFragment extends Fragment implements OnChatActionsListener {
     private void initUI() {
         ((ActionBarActivity) getActivity()).getSupportActionBar().show();
 
-        msgAdapter = new MessagesAdapter(getActivity(), FakeDataProvider.getChatMessages());
+        msgAdapter = new MessagesAdapter(getActivity(), new ArrayList<Message>());
         msgList.setAdapter(msgAdapter);
 
         msgTextBox.setImeActionLabel(getString(R.string.send), EditorInfo.IME_ACTION_SEND);
@@ -99,8 +100,8 @@ public class ChatFragment extends Fragment implements OnChatActionsListener {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
         ChatConnectionManager.getInstance().removeChatListener(this);
     }
 
