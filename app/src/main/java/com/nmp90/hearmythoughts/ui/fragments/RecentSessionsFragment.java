@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,10 +73,11 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recent_sessions, container, false);
-        View headerView = inflater.inflate(R.layout.view_header_recent_sessions, container, false);
+        View headerView = inflater.inflate(R.layout.view_header_recent_sessions, null, false);
 
         ButterKnife.inject(this, view);
-        //lvRecentSessions.addHeaderView(headerView);
+
+        lvRecentSessions.addHeaderView(headerView);
         loadAdapter(new ArrayList<RecentSession>());
 
         actionCreate.setOnClickListener(this);
@@ -137,7 +137,10 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
 
     @Subscribe
     public void onRecentSessionsReceived(SessionsStore.RecentSessionsEvent event) {
-        Log.d(TAG, "onRecentSessionsReceived " + event.getRecentSessionList());
+        for (int i = 0; i < event.getRecentSessionList().size(); i++) {
+            RecentSession session = event.getRecentSessionList().get(i);
+            session.setPictureUrl("https://lh3.googleusercontent.com/-ImUaoqoJX1c/U56YqbZBN-I/AAAAAAAAARE/ewfWFE8GrwA/");
+        }
         loadAdapter(event.getRecentSessionList());
     }
 

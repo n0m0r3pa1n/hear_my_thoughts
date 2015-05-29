@@ -13,6 +13,7 @@ import android.widget.EditText;
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.api.SessionsAPI;
 import com.nmp90.hearmythoughts.constants.Constants;
+import com.nmp90.hearmythoughts.providers.SessionProvider;
 import com.nmp90.hearmythoughts.stores.SessionsStore;
 import com.nmp90.hearmythoughts.ui.SessionActivity;
 import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
@@ -59,6 +60,7 @@ public class CreateSessionFragment extends BaseNotificationFragment {
 
     @Subscribe
     public void onSessionCreated(SessionsStore.SessionCreatedEvent event) {
+        SessionProvider.getInstance(getActivity()).setSession(event.getSession());
         getActivity().onBackPressed();
         Intent intent = new Intent(getActivity(), SessionActivity.class);
         startActivity(intent);

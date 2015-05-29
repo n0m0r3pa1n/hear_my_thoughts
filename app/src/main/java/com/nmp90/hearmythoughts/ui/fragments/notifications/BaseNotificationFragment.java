@@ -11,6 +11,11 @@ import android.widget.RelativeLayout;
 
 import com.nmp90.hearmythoughts.R;
 
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 
 public abstract class BaseNotificationFragment extends Fragment {
     private Activity activity;
@@ -18,6 +23,11 @@ public abstract class BaseNotificationFragment extends Fragment {
     private RelativeLayout notificationLayout;
     private RelativeLayout commonLayout;
 
+    @OnClick(R.id.btn_dismiss)
+    void dismissDialog() {
+        List<Fragment> fragments = getActivity().getSupportFragmentManager().getFragments();
+        getActivity().getSupportFragmentManager().beginTransaction().remove(fragments.get(fragments.size()-1)).commit();
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -35,6 +45,7 @@ public abstract class BaseNotificationFragment extends Fragment {
 
         commonLayout = (RelativeLayout) view.findViewById(R.id.layout_notifications);
         commonLayout.addView(viewToAdd, 0, viewToAdd.getLayoutParams());
+        ButterKnife.inject(this, commonLayout);
 
         return view;
     }

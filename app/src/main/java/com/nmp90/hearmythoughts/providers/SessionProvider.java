@@ -25,11 +25,15 @@ public class SessionProvider {
         return sessionProvider;
     }
 
-    private void setSession(Session session) {
-        SharedPrefsUtils.getInstance(context).setPreference(Constants.KEY_SESSION, session);
+    public void setSession(Session session) {
+        SharedPrefsUtils.getInstance(context).setPreference(Constants.KEY_SESSION, GsonInstance.getInstance().toJson(session));
     }
 
     public Session getSession() {
         return GsonInstance.getInstance().fromJson(SharedPrefsUtils.getInstance(context).getPreference(Constants.KEY_SESSION, ""), Session.class);
+    }
+
+    public void clearSession() {
+        SharedPrefsUtils.getInstance(context).setPreference(Constants.KEY_SESSION, "");
     }
 }

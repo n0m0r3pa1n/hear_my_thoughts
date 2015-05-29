@@ -161,6 +161,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         items.add(new NavigationItem("Chat", getResources().getDrawable(R.drawable.ic_message)));
         items.add(new NavigationItem("Stream", getResources().getDrawable(R.drawable.ic_stream)));
         items.add(new NavigationItem("Materials", getResources().getDrawable(R.drawable.ic_materials)));
+        items.add(new NavigationItem("About", getResources().getDrawable(R.drawable.ic_about)));
         return items;
     }
 

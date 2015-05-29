@@ -10,17 +10,18 @@ import android.view.MenuItem;
 
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.constants.Constants;
-import com.nmp90.hearmythoughts.ui.models.Role;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
+import com.nmp90.hearmythoughts.providers.SessionProvider;
 import com.nmp90.hearmythoughts.ui.fragments.ChatFragment;
 import com.nmp90.hearmythoughts.ui.fragments.drawers.ChatDrawerFragment;
 import com.nmp90.hearmythoughts.ui.fragments.drawers.NavigationDrawerCallbacks;
 import com.nmp90.hearmythoughts.ui.fragments.drawers.NavigationDrawerFragment;
+import com.nmp90.hearmythoughts.ui.fragments.notifications.AboutFragment;
 import com.nmp90.hearmythoughts.ui.fragments.student.MaterialsStudentFragment;
 import com.nmp90.hearmythoughts.ui.fragments.student.StreamStudentFragment;
 import com.nmp90.hearmythoughts.ui.fragments.teacher.MaterialsTeacherFragment;
 import com.nmp90.hearmythoughts.ui.fragments.teacher.StreamTeacherFragment;
-import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
+import com.nmp90.hearmythoughts.ui.models.Role;
 import com.nmp90.hearmythoughts.utils.WindowUtils;
 
 public class SessionActivity extends ActionBarActivity implements NavigationDrawerCallbacks {
@@ -36,7 +37,7 @@ public class SessionActivity extends ActionBarActivity implements NavigationDraw
         setSupportActionBar(actionBar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        String sessionTitle = SharedPrefsUtils.getInstance(this).getPreference(Constants.KEY_SESSION_TITLE, "");
+        String sessionTitle = SessionProvider.getInstance(this).getSession().getName();
         if(!TextUtils.isEmpty(sessionTitle)) {
             setTitle(sessionTitle);
         }
@@ -98,6 +99,10 @@ public class SessionActivity extends ActionBarActivity implements NavigationDraw
                     break;
             }
         }
+
+        if(position == 3) {
+            getSupportFragmentManager().beginTransaction().add(R.id.container, new AboutFragment(), Constants.TAG_ABOUT).commit();
+        }
     }
 
     @Override
@@ -106,5 +111,11 @@ public class SessionActivity extends ActionBarActivity implements NavigationDraw
             mNavigationDrawerFragment.closeDrawer();
         else
             super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        SessionProvider.getInstance(this).clearSession();
+        super.onDestroy();
     }
 }
