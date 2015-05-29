@@ -96,7 +96,7 @@ public class ChatFragment extends Fragment implements OnChatActionsListener {
     public void onResume() {
         super.onResume();
         ChatConnectionManager.getInstance().addChatListener(this);
-        ChatConnectionManager.getInstance().addUserToChat(AuthProvider.getInstance(getActivity()).getUser(), "Test");
+
     }
 
     @Override

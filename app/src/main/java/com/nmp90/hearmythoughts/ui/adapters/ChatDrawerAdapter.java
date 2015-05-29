@@ -42,7 +42,7 @@ public class ChatDrawerAdapter extends RecyclerView.Adapter<ChatDrawerAdapter.Vi
 
     public void removeUser(ChatItem item) {
         for (int i = 0; i < getItemCount(); i++) {
-            if(item.getText().equals(mData.get(i).getText())) {
+            if(item.getUserId().equals(mData.get(i).getUserId())) {
                 mData.remove(i);
                 break;
             }

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.nmp90.hearmythoughts.R;
+import com.nmp90.hearmythoughts.api.sockets.ChatConnectionManager;
 import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.providers.SessionProvider;
@@ -47,6 +48,9 @@ public class SessionActivity extends ActionBarActivity implements NavigationDraw
 
         mChatDrawerFragment = (ChatDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_chat_drawer);
         mChatDrawerFragment.setup(R.id.fragment_chat_drawer, (DrawerLayout) findViewById(R.id.drawer), actionBar);
+
+        ChatConnectionManager.getInstance().addUserToChat(AuthProvider.getInstance(this).getUser(),
+                SessionProvider.getInstance(this).getSession().getShortId());
     }
 
 

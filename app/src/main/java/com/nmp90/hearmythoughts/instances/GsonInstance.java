@@ -1,6 +1,7 @@
 package com.nmp90.hearmythoughts.instances;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -13,7 +14,7 @@ import java.lang.reflect.Type;
  * Created by nmp on 15-3-12.
  */
 public class GsonInstance {
-
+    public static final String TAG = GsonInstance.class.getSimpleName();
     private static GsonInstance gsonInstance;
     private Gson sGson;
     private GsonInstance() {
@@ -33,8 +34,14 @@ public class GsonInstance {
         return sGson.fromJson(json, classOfT);
     }
 
-    public <T> T fromJson(String json, Type typeOfT) throws JsonSyntaxException {
-        return sGson.fromJson(json, typeOfT);
+    public <T> T fromJson(String json, Type typeOfT) {
+        try {
+            return sGson.fromJson(json, typeOfT);
+        } catch(Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "fromJson ");
+            return  null;
+        }
     }
 
     public <T> T fromJsonWithToast(Context context, String json, Class<T> classOfT) {

@@ -13,11 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nmp90.hearmythoughts.R;
+import com.nmp90.hearmythoughts.api.models.User;
+import com.nmp90.hearmythoughts.api.models.UsersList;
 import com.nmp90.hearmythoughts.api.sockets.ChatConnectionManager;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.ui.adapters.ChatDrawerAdapter;
 import com.nmp90.hearmythoughts.ui.models.ChatItem;
-import com.nmp90.hearmythoughts.ui.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class ChatDrawerFragment extends Fragment implements NavigationDrawerCall
     private ChatDrawerAdapter adapter;
 
     private int mCurrentSelectedPosition;
+    private boolean isFirstLaunch = true;
 
     @Override
     public void onResume() {
@@ -56,10 +58,7 @@ public class ChatDrawerFragment extends Fragment implements NavigationDrawerCall
         mDrawerList.setLayoutManager(layoutManager);
         mDrawerList.setHasFixedSize(true);
 
-        final List<ChatItem> navigationItems = new ArrayList<ChatItem>();
-        adapter = new ChatDrawerAdapter(getActivity(), navigationItems);
-        adapter.setNavigationDrawerCallbacks(this);
-        mDrawerList.setAdapter(adapter);
+
         selectItem(mCurrentSelectedPosition);
         return view;
     }
@@ -85,7 +84,7 @@ public class ChatDrawerFragment extends Fragment implements NavigationDrawerCall
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
 
-        ((ChatDrawerAdapter) mDrawerList.getAdapter()).selectPosition(position);
+        //((ChatDrawerAdapter) mDrawerList.getAdapter()).selectPosition(position);
     }
 
     public boolean isDrawerOpen() {
@@ -120,7 +119,8 @@ public class ChatDrawerFragment extends Fragment implements NavigationDrawerCall
         getActivity().runOnUiThread(new Thread(new Runnable() {
             @Override
             public void run() {
-                adapter.addUser(new ChatItem(user.getName(), user.getIconUrl()));
+                //TODO replace with user.getIconUrl()
+                adapter.addUser(new ChatItem(user.getId(), user.getName(), "https://lh3.googleusercontent.com/-ImUaoqoJX1c/U56YqbZBN-I/AAAAAAAAARE/ewfWFE8GrwA/"));
             }
         }));
     }
@@ -132,9 +132,30 @@ public class ChatDrawerFragment extends Fragment implements NavigationDrawerCall
         getActivity().runOnUiThread(new Thread(new Runnable() {
             @Override
             public void run() {
-                adapter.removeUser(new ChatItem(user.getName(), user.getIconUrl()));
+                adapter.removeUser(new ChatItem(user.getId(), user.getName(), user.getIconUrl()));
             }
         }));
 
+    }
+
+    @Override
+    public void onInitialUsersListReceived(final UsersList usersList) {
+        if(!isAdded())
+            return;
+        getActivity().runOnUiThread(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final List<ChatItem> navigationItems = new ArrayList<ChatItem>();
+                int size = usersList.getUsers().size();
+                for (int i = 0; i < size; i++) {
+                    User user = usersList.getUsers().get(i);
+                    navigationItems.add(new ChatItem(user.getId(), user.getName(), ""));
+                }
+
+                adapter = new ChatDrawerAdapter(getActivity(), navigationItems);
+                adapter.setNavigationDrawerCallbacks(ChatDrawerFragment.this);
+                mDrawerList.setAdapter(adapter);
+            }
+        }));
     }
 }

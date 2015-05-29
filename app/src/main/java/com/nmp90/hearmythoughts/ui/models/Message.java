@@ -1,5 +1,7 @@
 package com.nmp90.hearmythoughts.ui.models;
 
+import com.nmp90.hearmythoughts.api.models.User;
+
 /**
  * Created by nmp on 15-3-11.
  */

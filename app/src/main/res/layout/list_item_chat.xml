@@ -12,6 +12,7 @@
 
     <com.nmp90.hearmythoughts.ui.views.RobotoTextView
         android:id="@+id/item_name"
+        android:singleLine="true"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:textSize="18sp"

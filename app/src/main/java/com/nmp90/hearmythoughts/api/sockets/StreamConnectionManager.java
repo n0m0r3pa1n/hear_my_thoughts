@@ -6,7 +6,7 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.nmp90.hearmythoughts.constants.Constants;
-import com.nmp90.hearmythoughts.ui.models.User;
+import com.nmp90.hearmythoughts.api.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;

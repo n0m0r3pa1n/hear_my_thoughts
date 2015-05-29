@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.nmp90.hearmythoughts.R;
+import com.nmp90.hearmythoughts.api.SessionsAPI;
 import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.stores.UsersStore;
@@ -94,6 +95,12 @@ public class MainActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
         UsersStore.getInstance(this).register(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SessionsAPI.getRecentSessions(this);
     }
 
     @Override

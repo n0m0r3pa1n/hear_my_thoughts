@@ -1,6 +1,8 @@
-package com.nmp90.hearmythoughts.ui.models;
+package com.nmp90.hearmythoughts.api.models;
 
 import com.nmp90.hearmythoughts.instances.GsonInstance;
+import com.nmp90.hearmythoughts.ui.models.BaseModel;
+import com.nmp90.hearmythoughts.ui.models.Role;
 
 /**
  * Created by nmp on 15-3-12.

@@ -13,11 +13,10 @@ import android.widget.EditText;
 
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.api.SessionsAPI;
-import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.events.ErrorEvent;
+import com.nmp90.hearmythoughts.providers.SessionProvider;
 import com.nmp90.hearmythoughts.stores.SessionsStore;
 import com.nmp90.hearmythoughts.ui.SessionActivity;
-import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -65,7 +64,8 @@ public class JoinSessionFragment extends BaseNotificationFragment {
     @Subscribe
     public void onSessionJoin(SessionsStore.SessionJoinedEvent event) {
         getActivity().onBackPressed();
-        SharedPrefsUtils.getInstance(getActivity()).setPreference(Constants.KEY_SESSION_TITLE, event.getSession().getName());
+        SessionProvider.getInstance(getActivity()).setSession(event.getSession());
+
         Intent intent = new Intent(getActivity(), SessionActivity.class);
         startActivity(intent);
     }

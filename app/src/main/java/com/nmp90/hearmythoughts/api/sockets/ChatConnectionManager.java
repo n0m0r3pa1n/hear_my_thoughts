@@ -5,10 +5,11 @@ import android.util.Log;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.nmp90.hearmythoughts.api.models.User;
+import com.nmp90.hearmythoughts.api.models.UsersList;
 import com.nmp90.hearmythoughts.constants.Constants;
 import com.nmp90.hearmythoughts.instances.GsonInstance;
 import com.nmp90.hearmythoughts.ui.models.Message;
-import com.nmp90.hearmythoughts.ui.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,13 +56,30 @@ public class ChatConnectionManager {
         }
     };
 
+    private Emitter.Listener onInitialUsersListReceived = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            JSONObject data = (JSONObject) args[0];
+            try {
+                UsersList users = GsonInstance.getInstance().fromJson(data.toString(), UsersList.class);
+                notifyUsersListReceivedListeners(users);
+            } catch(Exception e) {
+                Log.d(TAG, "call " + data.toString());
+                e.printStackTrace();
+                Log.d(TAG, "call " + e.getLocalizedMessage());
+            }
+
+        }
+    };
+
     private Emitter.Listener onUserJoin = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
             JSONObject data = (JSONObject) args[0];
             try {
                 notifyUserJoinedListeners(
-                        GsonInstance.getInstance().fromJson(data.getString("user"), User.class));
+                        GsonInstance.getInstance().fromJson(data.getString("user"), User.class)
+                        );
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -95,6 +113,7 @@ public class ChatConnectionManager {
         synchronized (threadLock) {
             if ((chatListeners.size() > 0 || userListeners.size() > 0) && !socket.connected()) {
                 if(!socket.hasListeners("new message")) {
+                    socket.on("users list", onInitialUsersListReceived);
                     socket.on("new message", onNewMessage);
                     socket.on("user joined", onUserJoin);
                     socket.on("user left", onUserLeft);
@@ -151,6 +170,14 @@ public class ChatConnectionManager {
         }
     }
 
+    public void notifyUsersListReceivedListeners(UsersList usersList) {
+        int size = userListeners.size();
+        for (int i = 0; i < size; i++) {
+            OnUserChatActionsListener listener = userListeners.get(i);
+            listener.onInitialUsersListReceived(usersList);
+        }
+    }
+
     public void notifyUserJoinedListeners(User user) {
         int size = userListeners.size();
         for (int i = 0; i < size; i++) {
@@ -185,11 +212,11 @@ public class ChatConnectionManager {
 
     public interface OnChatActionsListener extends OnChatListener {
         void onMessageReceived(Message message);
-
     }
 
     public interface  OnUserChatActionsListener extends OnChatListener {
         void onUserJoined(User user);
         void onUserLeft(User user);
+        void onInitialUsersListReceived(UsersList usersList);
     }
 }

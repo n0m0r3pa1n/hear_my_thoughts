@@ -7,7 +7,7 @@ import com.nmp90.hearmythoughts.events.ServerEvent;
 import com.nmp90.hearmythoughts.events.UiEvent;
 import com.nmp90.hearmythoughts.instances.EventBusInstance;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
-import com.nmp90.hearmythoughts.ui.models.User;
+import com.nmp90.hearmythoughts.api.models.User;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 

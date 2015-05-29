@@ -1,7 +1,6 @@
 package com.nmp90.hearmythoughts.api.models;
 
 import com.nmp90.hearmythoughts.ui.models.BaseModel;
-import com.nmp90.hearmythoughts.ui.models.User;
 
 import java.util.List;
 
