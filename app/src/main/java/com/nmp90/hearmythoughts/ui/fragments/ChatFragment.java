@@ -17,6 +17,7 @@ import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.api.sockets.ChatConnectionManager;
 import com.nmp90.hearmythoughts.api.sockets.ChatConnectionManager.OnChatActionsListener;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
+import com.nmp90.hearmythoughts.providers.SessionProvider;
 import com.nmp90.hearmythoughts.ui.adapters.MessagesAdapter;
 import com.nmp90.hearmythoughts.ui.models.Message;
 
@@ -114,7 +115,7 @@ public class ChatFragment extends Fragment implements OnChatActionsListener {
             message.setMine(true);
 
             msgAdapter.addMessage(message);
-            ChatConnectionManager.getInstance().sendMessage(message, "Test");
+            ChatConnectionManager.getInstance().sendMessage(message, SessionProvider.getInstance(getActivity()).getSession().getShortId());
             msgTextBox.getText().clear();
         }
     }

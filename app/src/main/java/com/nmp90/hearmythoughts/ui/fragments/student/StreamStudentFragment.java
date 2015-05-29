@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.api.sockets.StreamConnectionManager;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
+import com.nmp90.hearmythoughts.providers.SessionProvider;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -35,7 +36,8 @@ public class StreamStudentFragment extends Fragment implements StreamConnectionM
         View view = inflater.inflate(R.layout.fragment_stream_student, container, false);
         ButterKnife.inject(this, view);
 
-        StreamConnectionManager.getInstance().addUserToStream(AuthProvider.getInstance(getActivity()).getUser(), "Test");
+        StreamConnectionManager.getInstance().addUserToStream(AuthProvider.getInstance(getActivity()).getUser(),
+                SessionProvider.getInstance(getActivity()).getSession().getShortId());
         return view;
     }
 

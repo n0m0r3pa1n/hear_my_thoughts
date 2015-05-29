@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.api.sockets.StreamConnectionManager;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
+import com.nmp90.hearmythoughts.providers.SessionProvider;
 import com.nmp90.hearmythoughts.providers.speech.ISpeechRecognitionListener;
 import com.nmp90.hearmythoughts.providers.speech.SpeechRecognitionProvider;
 import com.nmp90.hearmythoughts.ui.views.ProgressImageView;
@@ -52,15 +53,17 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
         View view = inflater.inflate(R.layout.fragment_stream_teacher, container, false);
         ButterKnife.inject(this, view);
 
-        StreamConnectionManager.getInstance().addUserToStream(AuthProvider.getInstance(getActivity()).getUser(), "Test");
+        StreamConnectionManager.getInstance().addUserToStream(AuthProvider.getInstance(getActivity()).getUser(),
+                SessionProvider.getInstance(getActivity()).getSession().getShortId());
         return view;
     }
 
     @OnClick(R.id.btn_dictate)
     public void setupDictation() {
+        String shortId = SessionProvider.getInstance(getActivity()).getSession().getShortId();
         if(doesSupportSpeechRecognition() == false) {
-            StreamConnectionManager.getInstance().sendStream(etStream.getText().toString(), "Test");
-            StreamConnectionManager.getInstance().sendStreamStatus(true, "Test");
+            StreamConnectionManager.getInstance().sendStream(etStream.getText().toString(), shortId);
+            StreamConnectionManager.getInstance().sendStreamStatus(true, shortId);
             return;
         }
 
@@ -70,14 +73,14 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
             tvStreaming.setText(getResources().getString(R.string.start_streaming));
             btnDictate.setLoading(shoouldStopRecognition);
             SpeechRecognitionProvider.getSpeechRecognition().stopRecognition();
-            StreamConnectionManager.getInstance().sendStreamStatus(false, "Test");
+            StreamConnectionManager.getInstance().sendStreamStatus(false, shortId);
         } else {
             shoouldStopRecognition = true;
             tvStreaming.setText(getResources().getString(R.string.streaming));
             btnDictate.setLoading(shoouldStopRecognition);
             SpeechRecognitionProvider.getSpeechRecognition().startRecognition(getActivity(), this);
             AudioUtils.mute(getActivity());
-            StreamConnectionManager.getInstance().sendStreamStatus(true, "Test");
+            StreamConnectionManager.getInstance().sendStreamStatus(true, shortId);
         }
     }
 
@@ -102,7 +105,7 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
         Log.d(TAG, dictationResults.get(0));
 
         dictationBuilder.append(dictationResults.get(0) + " ");
-        StreamConnectionManager.getInstance().sendStream(dictationBuilder.toString(), "Test");
+        StreamConnectionManager.getInstance().sendStream(dictationBuilder.toString(), SessionProvider.getInstance(getActivity()).getSession().getShortId());
         etStream.setText(dictationBuilder.toString());
     }
 
@@ -113,13 +116,13 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
 
     @Override
     public void onDetach() {
-        super.onDetach();
-        StreamConnectionManager.getInstance().sendStreamStatus(false, "Test");
+        StreamConnectionManager.getInstance().sendStreamStatus(false, SessionProvider.getInstance(getActivity()).getSession().getShortId());
         if(shoouldStopRecognition) {
             shoouldStopRecognition = false;
             SpeechRecognitionProvider.getSpeechRecognition().stopRecognition();
             btnDictate.setLoading(false);
             AudioUtils.unmute();
         }
+        super.onDetach();
     }
 }
