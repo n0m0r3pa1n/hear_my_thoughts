@@ -202,8 +202,8 @@ public class ChatConnectionManager {
         socket.emit("add user", user, sessionCode);
     }
 
-    public void sendMessage(Message message, String sessionCode) {
-        socket.emit("new message", message.getMessage(), sessionCode);
+    public void sendMessage(Message message, String sessionCode, String userId) {
+        socket.emit("new message", message.getMessage(), sessionCode, userId);
     }
 
     public interface OnChatListener {

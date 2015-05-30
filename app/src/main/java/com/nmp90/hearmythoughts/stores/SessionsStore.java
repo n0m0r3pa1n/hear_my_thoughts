@@ -23,7 +23,7 @@ public class SessionsStore extends Bus {
     private Session session;
     private RecentSessionsList sessionsList;
 
-    public SessionsStore() {
+    private SessionsStore() {
         super(TAG);
         EventBusInstance.getInstance().register(this);
     }

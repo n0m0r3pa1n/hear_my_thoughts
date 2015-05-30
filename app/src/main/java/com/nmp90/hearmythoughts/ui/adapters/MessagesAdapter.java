@@ -106,7 +106,7 @@ public class MessagesAdapter extends BaseAdapter implements Animation.AnimationL
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        Picasso.with(context).load("https://lh3.googleusercontent.com/-ImUaoqoJX1c/U56YqbZBN-I/AAAAAAAAARE/ewfWFE8GrwA/").into(viewHolder.avatar);
+        Picasso.with(context).load("http://cdn.mobcon.com/wp-content/uploads/2015/02/Alberto-Lopez.png").into(viewHolder.avatar);
         if(!TextUtils.isEmpty(message.getUser().getIconUrl())) {
         }
 
@@ -123,7 +123,7 @@ public class MessagesAdapter extends BaseAdapter implements Animation.AnimationL
     }
 
     public void addMessage(Message msg) {
-        msg.getUser().setIconUrl("https://lh3.googleusercontent.com/-ImUaoqoJX1c/U56YqbZBN-I/AAAAAAAAARE/ewfWFE8GrwA/");
+        msg.getUser().setIconUrl("http://cdn.mobcon.com/wp-content/uploads/2015/02/Alberto-Lopez.png");
         messages.add(msg);
 
         isLastItemAnimated = false;
