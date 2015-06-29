@@ -119,8 +119,7 @@ public class ChatDrawerFragment extends Fragment implements NavigationDrawerCall
         getActivity().runOnUiThread(new Thread(new Runnable() {
             @Override
             public void run() {
-                //TODO replace with user.getIconUrl()
-                adapter.addUser(new ChatItem(user.getId(), user.getName(), "https://lh3.googleusercontent.com/-ImUaoqoJX1c/U56YqbZBN-I/AAAAAAAAARE/ewfWFE8GrwA/"));
+                adapter.addUser(new ChatItem(user.getId(), user.getName(), user.getIconUrl()));
             }
         }));
     }

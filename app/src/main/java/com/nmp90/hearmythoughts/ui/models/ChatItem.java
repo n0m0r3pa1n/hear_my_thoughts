@@ -10,8 +10,7 @@ public class ChatItem {
     public ChatItem(String userId, String text, String drawable) {
         this.userId = userId;
         this.text = text;
-        //TODO replace with drawable
-        drawableUrl = "https://lh3.googleusercontent.com/-ImUaoqoJX1c/U56YqbZBN-I/AAAAAAAAARE/ewfWFE8GrwA/";
+        drawableUrl = drawable;
     }
 
     public String getText() {

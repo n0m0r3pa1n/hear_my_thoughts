@@ -28,7 +28,7 @@ import java.util.List;
 public class NavigationDrawerFragment extends Fragment implements NavigationDrawerCallbacks {
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
-    private static final String PREFERENCES_FILE = "my_app_settings"; //TODO: change this to your file
+    private static final String PREFERENCES_FILE = "my_app_settings";
 
     public static final String TAG = NavigationDrawerFragment.class.getSimpleName();
 
