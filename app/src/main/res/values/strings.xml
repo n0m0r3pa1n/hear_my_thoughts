@@ -47,4 +47,7 @@
     <string name="streaming">Streaming..</string>
     <string name="action_logout">Logout</string>
     <string name="action_login">Login</string>
+
+    <string name="facebook_app_id">1124250214253711</string>
+
 </resources>

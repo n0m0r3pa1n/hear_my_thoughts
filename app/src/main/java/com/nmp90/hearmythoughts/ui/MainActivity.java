@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.FacebookSdk;
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.api.SessionsAPI;
 import com.nmp90.hearmythoughts.constants.Constants;
@@ -37,6 +38,7 @@ public class MainActivity extends ActionBarActivity {
         setSupportActionBar(actionBar);
 
         openRecentSessions();
+        FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
     private void openRecentSessions() {

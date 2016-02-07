@@ -25,9 +25,10 @@ public interface Constants {
 
     String TAG_MATERIALS = "MaterialsFragment";
     String TAG_STREAM = "StreamFragment";
-    //String BASE_SERVER_URL = "http://10.0.3.2";
+    String BASE_SERVER_URL = "http://10.0.3.2";
 
     String BASE_URL_PORT = ":8080";
-    String BASE_SERVER_URL = "http://hear-my-thoughts.herokuapp.com";
+    //String BASE_SERVER_URL = "http://hear-my-thoughts.herokuapp.com";
+//    String BASE_SERVER_URL = "http://localhost";
     String BASE_URL = BASE_SERVER_URL + BASE_URL_PORT;
 }

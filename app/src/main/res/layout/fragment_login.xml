@@ -24,7 +24,7 @@
             android:text="In order to use the app you must be logged in"
             android:layout_marginBottom="20dp"/>
 
-        <com.google.android.gms.common.SignInButton
+        <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_below="@id/tv_login_required"
             android:layout_centerHorizontal="true"

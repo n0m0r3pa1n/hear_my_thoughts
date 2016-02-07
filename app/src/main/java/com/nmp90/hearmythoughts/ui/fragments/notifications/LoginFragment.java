@@ -1,27 +1,30 @@
 package com.nmp90.hearmythoughts.ui.fragments.notifications;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.api.UsersAPI;
 import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.stores.UsersStore;
-import com.nmp90.hearmythoughts.ui.MainActivity;
 import com.nmp90.hearmythoughts.ui.utils.NavUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -30,8 +33,7 @@ import butterknife.OnClick;
 /**
  * Created by nmp on 15-3-2.
  */
-public class LoginFragment extends BaseNotificationFragment implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, MainActivity.MainActivityResultListener {
+public class LoginFragment extends BaseNotificationFragment {
     public static final String TAG = LoginFragment.class.getSimpleName();
     private static final int RC_SIGN_IN = 0;
     public static final String KEY_LOGOUT = "logout";
@@ -39,17 +41,16 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
     private boolean isLogout;
     private boolean isIntentInProgress;
 
-    private ConnectionResult connectionResult;
-    private GoogleApiClient googleApiClient;
-
-    @InjectView(R.id.login_button)
-    SignInButton loginButton;
+    private CallbackManager callbackManager;
 
     @InjectView(R.id.logout_button)
     Button logoutButton;
 
     @InjectView(R.id.tv_login_required)
     TextView tvWarning;
+
+    @InjectView(R.id.login_button)
+    LoginButton loginButton;
 
     public static LoginFragment newInstance(boolean isLogout) {
         Bundle bundle = new Bundle();
@@ -63,26 +64,67 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isLogout = this.getArguments().getBoolean(KEY_LOGOUT);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        googleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(Plus.API)
-                .addScope(Plus.SCOPE_PLUS_LOGIN)
-                .build();
+        callbackManager = CallbackManager.Factory.create();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = getInflatedView(inflater, container, R.layout.fragment_login);
         ButterKnife.inject(this, view);
+        loginButton.setReadPermissions("user_friends", "email");
+        loginButton.setFragment(this);
+
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+                                // Application code
+
+                                JSONObject json = response.getJSONObject();
+                                Log.d(TAG, "onCompleted: " + json.toString());
+                                try {
+                                    String id = json.getString("id");
+                                    String name = json.getString("name");
+                                    String email = json.getString("email");
+                                    Log.d(TAG, "onCompleted: " + email);
+
+                                    if(!isLogout) {
+                                        if(isAdded()) {
+                                            NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), LoginFragment.this);
+                                            UsersAPI.loginUser(getActivity(), email, name);
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender, birthday");
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d(TAG, "onCancel: ");
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                Log.e(TAG, "onError: " + exception.toString());
+            }
+        });
         if(isLogout) {
             tvWarning.setText("Are you sure you want to logout?");
-            loginButton.setVisibility(View.GONE);
+            //loginButton.setVisibility(View.GONE);
             logoutButton.setVisibility(View.VISIBLE);
         }
 
@@ -91,106 +133,20 @@ public class LoginFragment extends BaseNotificationFragment implements GoogleApi
 
     @OnClick(R.id.login_button)
     void login() {
-        if(!googleApiClient.isConnecting()) {
-            resolveSignInError();
-        }
     }
 
     @OnClick(R.id.logout_button)
     void logout() {
-        Plus.AccountApi.clearDefaultAccount(googleApiClient);
         AuthProvider.getInstance(getActivity()).logout();
         NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), this);
         UsersStore.getInstance(getActivity()).post(new UsersStore.UserLogoutEvent());
     }
 
-    private void resolveSignInError() {
-        if (connectionResult.hasResolution()) {
-            try {
-                isIntentInProgress = true;
-                getActivity().startIntentSenderForResult(connectionResult.getResolution().getIntentSender(),
-                        RC_SIGN_IN, null, 0, 0, 0);
-            } catch (IntentSender.SendIntentException e) {
-                // The intent was canceled before it was sent.  Return to the default
-                // state and attempt to connect to get an updated connectionResult.
-                isIntentInProgress = false;
-                googleApiClient.connect();
-            }
-        }
-    }
 
     @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        connectionResult = result;
-        if (!isIntentInProgress && result.hasResolution()) {
-            try {
-                isIntentInProgress = true;
-                getActivity().startIntentSenderForResult(result.getResolution().getIntentSender(),
-                        RC_SIGN_IN, null, 0, 0, 0);
-            } catch (IntentSender.SendIntentException e) {
-                // The intent was canceled before it was sent.  Return to the default
-                // state and attempt to connect to get an updated connectionResult.
-                isIntentInProgress = false;
-                googleApiClient.connect();
-            }
-        }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-
-    public void onMainActivityResult(int requestCode, int responseCode, Intent intent) {
-        if (requestCode == RC_SIGN_IN) {
-            if (responseCode != Activity.RESULT_OK) {
-            }
-
-            isIntentInProgress = false;
-
-            if (!googleApiClient.isConnecting()) {
-                googleApiClient.connect();
-            }
-        }
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((MainActivity) activity).addOnActivityResultListener(this);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        googleApiClient.connect();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if(googleApiClient != null) {
-            if (googleApiClient.isConnected()) {
-                googleApiClient.disconnect();
-            }
-        }
-    }
-
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        if (Plus.PeopleApi.getCurrentPerson(googleApiClient) != null) {
-            final Person currentPerson = Plus.PeopleApi.getCurrentPerson(googleApiClient);
-            String email = Plus.AccountApi.getAccountName(googleApiClient);
-
-            //EventBusInstance.post(new UserLoginEvent(new User(currentPerson.getDisplayName(), currentPerson.getImage().getUrl(), Role.TEACHER)));
-            if(!isLogout) {
-                if(isAdded()) {
-                    NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), this);
-                    UsersAPI.loginUser(getActivity(), email, currentPerson.getDisplayName());
-                }
-            }
-
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        googleApiClient.connect();
-    }
 }
