@@ -90,9 +90,10 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
                 new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
         if (activities.size() == 0) {
             Toast.makeText(getActivity(), "Your phone does not support speech recognition", Toast.LENGTH_LONG).show();
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     @Override

@@ -37,7 +37,7 @@ public class ChatConnectionManager {
     private Socket socket;
     {
         try {
-            socket = IO.socket(Constants.BASE_SERVER_URL + ":8081");
+            socket = IO.socket(Constants.BASE_SERVER_URL + "/chat" );
         } catch (URISyntaxException e) {
             Log.d(TAG, "instance initializer " + e);
         }

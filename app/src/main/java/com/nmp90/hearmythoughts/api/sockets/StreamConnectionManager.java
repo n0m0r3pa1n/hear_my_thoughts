@@ -33,7 +33,7 @@ public class StreamConnectionManager {
     private Socket socket;
     {
         try {
-            socket = IO.socket(Constants.BASE_SERVER_URL + ":8082");
+            socket = IO.socket(Constants.BASE_SERVER_URL + "/stream");
         } catch (URISyntaxException e) {
             Log.d(TAG, "instance initializer " + e);
         }
