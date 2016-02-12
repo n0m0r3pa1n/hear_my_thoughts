@@ -119,7 +119,7 @@ public class ChatDrawerFragment extends Fragment implements NavigationDrawerCall
         getActivity().runOnUiThread(new Thread(new Runnable() {
             @Override
             public void run() {
-                adapter.addUser(new ChatItem(user.getId(), user.getName(), user.getIconUrl()));
+                adapter.addUser(new ChatItem(user.getId(), user.getName(), user.getProfilePicture()));
             }
         }));
     }
@@ -131,7 +131,7 @@ public class ChatDrawerFragment extends Fragment implements NavigationDrawerCall
         getActivity().runOnUiThread(new Thread(new Runnable() {
             @Override
             public void run() {
-                adapter.removeUser(new ChatItem(user.getId(), user.getName(), user.getIconUrl()));
+                adapter.removeUser(new ChatItem(user.getId(), user.getName(), user.getProfilePicture()));
             }
         }));
 
@@ -148,7 +148,7 @@ public class ChatDrawerFragment extends Fragment implements NavigationDrawerCall
                 int size = usersList.getUsers().size();
                 for (int i = 0; i < size; i++) {
                     User user = usersList.getUsers().get(i);
-                    navigationItems.add(new ChatItem(user.getId(), user.getName(), ""));
+                    navigationItems.add(new ChatItem(user.getId(), user.getName(), user.getProfilePicture()));
                 }
 
                 adapter = new ChatDrawerAdapter(getActivity(), navigationItems);

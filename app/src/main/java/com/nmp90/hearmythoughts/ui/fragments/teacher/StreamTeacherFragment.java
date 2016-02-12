@@ -1,15 +1,18 @@
 package com.nmp90.hearmythoughts.ui.fragments.teacher;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +50,8 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
 
     @InjectView(R.id.tv_streaming)
     TextView tvStreaming;
+
+    private FragmentActivity activity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,6 +121,13 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = getActivity();
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
+    @Override
     public void onDetach() {
         StreamConnectionManager.getInstance().sendStreamStatus(false, SessionProvider.getInstance(getActivity()).getSession().getShortId());
         if(shoouldStopRecognition) {
@@ -123,6 +135,7 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
             SpeechRecognitionProvider.getSpeechRecognition().stopRecognition();
             btnDictate.setLoading(false);
             AudioUtils.unmute();
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
         super.onDetach();
     }

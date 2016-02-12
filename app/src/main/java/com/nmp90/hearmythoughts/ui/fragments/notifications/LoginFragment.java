@@ -3,6 +3,7 @@ package com.nmp90.hearmythoughts.ui.fragments.notifications;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.nmp90.hearmythoughts.R;
@@ -89,17 +93,42 @@ public class LoginFragment extends BaseNotificationFragment {
                                 JSONObject json = response.getJSONObject();
                                 Log.d(TAG, "onCompleted: " + json.toString());
                                 try {
-                                    String id = json.getString("id");
-                                    String name = json.getString("name");
-                                    String email = json.getString("email");
+                                    final String id = json.getString("id");
+                                    final String name = json.getString("name");
+                                    final String email = json.getString("email");
                                     Log.d(TAG, "onCompleted: " + email);
 
-                                    if(!isLogout) {
-                                        if(isAdded()) {
-                                            NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), LoginFragment.this);
-                                            UsersAPI.loginUser(getActivity(), email, name);
-                                        }
-                                    }
+                                    Bundle bundle = new Bundle();
+                                    bundle.putBoolean("redirect", false);
+                                    bundle.putString("type", "large");
+                                    new GraphRequest(
+                                            AccessToken.getCurrentAccessToken(),
+                                            "/"+id+"/picture",
+                                            bundle,
+                                            HttpMethod.GET,
+                                            new GraphRequest.Callback() {
+                                                public void onCompleted(GraphResponse response) {
+
+                                                    JSONObject json = response.getJSONObject();
+                                                    String pictureUrl = null;
+                                                    try {
+                                                        pictureUrl = json.getJSONObject("data").getString("url");
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                    if(!TextUtils.isEmpty(pictureUrl)) {
+                                                        if(!isLogout) {
+                                                            if(isAdded()) {
+                                                                NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), LoginFragment.this);
+                                                                UsersAPI.loginUser(getActivity(), email, name, pictureUrl);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                    ).executeAsync();
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -124,19 +153,16 @@ public class LoginFragment extends BaseNotificationFragment {
         });
         if(isLogout) {
             tvWarning.setText("Are you sure you want to logout?");
-            //loginButton.setVisibility(View.GONE);
+            loginButton.setVisibility(View.GONE);
             logoutButton.setVisibility(View.VISIBLE);
         }
 
         return view;
     }
 
-    @OnClick(R.id.login_button)
-    void login() {
-    }
-
     @OnClick(R.id.logout_button)
     void logout() {
+        LoginManager.getInstance().logOut();
         AuthProvider.getInstance(getActivity()).logout();
         NavUtils.removeNotificationsFragment(getActivity().getSupportFragmentManager(), this);
         UsersStore.getInstance(getActivity()).post(new UsersStore.UserLogoutEvent());

@@ -23,7 +23,9 @@ public abstract class BaseAuthGetRequest<T> extends BaseGetRequest<T> {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("Authorization", AuthProvider.getInstance(context).getUser().getToken());
+        if(AuthProvider.getInstance(context).getUser() != null) {
+            params.put("Authorization", AuthProvider.getInstance(context).getUser().getToken());
+        }
         params.put("Accept", "application/json");
         params.put("Content-Type", "application/json");
         return params;

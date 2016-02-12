@@ -60,7 +60,9 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
         this.activity = activity;
         SessionsStore.getInstance().register(this);
         UsersStore.getInstance(getActivity()).register(this);
-        SessionsAPI.getRecentSessions(getActivity());
+        if(AuthProvider.getInstance(getActivity()).isUserLoggedIn()) {
+            SessionsAPI.getRecentSessions(getActivity());
+        }
     }
 
     @Override
@@ -139,7 +141,6 @@ public class RecentSessionsFragment extends Fragment implements View.OnClickList
     public void onRecentSessionsReceived(SessionsStore.RecentSessionsEvent event) {
         for (int i = 0; i < event.getRecentSessionList().size(); i++) {
             RecentSession session = event.getRecentSessionList().get(i);
-            session.setPictureUrl("https://lh3.googleusercontent.com/-ImUaoqoJX1c/U56YqbZBN-I/AAAAAAAAARE/ewfWFE8GrwA/");
         }
         loadAdapter(event.getRecentSessionList());
     }

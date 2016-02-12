@@ -67,7 +67,7 @@ public class RecentSessionsAdapter extends BaseAdapter {
         viewHolder.tvDate.setText(createdAt);
         viewHolder.tvParticipants.setText(session.getParticipants().size() + "");
         Picasso.with(context)
-                .load(session.getPictureUrl())
+                .load(session.getLecturer().getProfilePicture())
                 .into(viewHolder.ivLecturerPicture);
 
         return convertView;

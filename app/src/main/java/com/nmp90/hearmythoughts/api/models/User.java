@@ -8,35 +8,9 @@ import com.nmp90.hearmythoughts.ui.models.Role;
  * Created by nmp on 15-3-12.
  */
 public class User extends BaseModel {
-    private String name, iconUrl;
+    private String name, profilePicture;
     private Role role;
     private String token;
-
-    public User(String name, String iconUrl) {
-        this.name = name;
-        this.iconUrl = iconUrl;
-    }
-
-    public User(String id, String name, String iconUrl) {
-        this.id = id;
-        this.name = name;
-        this.iconUrl = iconUrl;
-    }
-
-    public User(String name, String iconUrl, Role role, String token) {
-        this.name = name;
-        this.iconUrl = iconUrl;
-        this.role = role;
-        this.token = token;
-    }
-
-    public User(String id, String name, String iconUrl, Role role, String token) {
-        this.id = id;
-        this.name = name;
-        this.iconUrl = iconUrl;
-        this.role = role;
-        this.token = token;
-    }
 
     public String getName() {
         return name;
@@ -44,14 +18,6 @@ public class User extends BaseModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getIconUrl() {
-        return iconUrl;
-    }
-
-    public void setIconUrl(String iconUrl) {
-        this.iconUrl = iconUrl;
     }
 
     public Role getRole() {
@@ -68,6 +34,10 @@ public class User extends BaseModel {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
     }
 
     @Override
