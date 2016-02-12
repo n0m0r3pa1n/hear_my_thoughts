@@ -83,7 +83,7 @@ public class GoogleSpeechRecognitionProvider implements RecognitionListener, ISp
         Log.d(TAG, "onReadyForSpeech");
         // create and schedule the input speech timeout
         speechTimeout = new Timer();
-        speechTimeout.schedule(new SilenceTimer(), 3000);
+        speechTimeout.schedule(new SilenceTimer(), 9000);
     }
 
     @Override
@@ -124,6 +124,7 @@ public class GoogleSpeechRecognitionProvider implements RecognitionListener, ISp
                 break;
             case SpeechRecognizer.ERROR_NETWORK:
                 message = "Network error";
+                restart = true;
                 break;
             case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
                 message = "Network timeout";
@@ -138,6 +139,7 @@ public class GoogleSpeechRecognitionProvider implements RecognitionListener, ISp
                 message = "error from server";
                 break;
             case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
+                restart = true;
                 message = "No speech input";
                 break;
             default:
@@ -148,9 +150,10 @@ public class GoogleSpeechRecognitionProvider implements RecognitionListener, ISp
 
         if (restart) {
             isRunning = true;
+            getSpeechRecognizer().destroy();
+            speech = null;
             ((Activity)context).runOnUiThread(new Runnable() {
                 public void run() {
-                    getSpeechRecognizer().cancel();
                     startRecognition(context, callback);
                 }
             });

@@ -32,4 +32,5 @@ public interface Constants {
 //    String BASE_SERVER_URL = "http://localhost";
 //    String BASE_SERVER_URL = "http://10.0.3.2";
     String BASE_URL = BASE_SERVER_URL;
+    String KEY_USER_ROLE = "user_role";
 }

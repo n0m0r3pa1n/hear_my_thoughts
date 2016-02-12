@@ -12,10 +12,13 @@ import android.widget.EditText;
 
 import com.nmp90.hearmythoughts.R;
 import com.nmp90.hearmythoughts.api.SessionsAPI;
+import com.nmp90.hearmythoughts.api.models.User;
 import com.nmp90.hearmythoughts.constants.Constants;
+import com.nmp90.hearmythoughts.providers.AuthProvider;
 import com.nmp90.hearmythoughts.providers.SessionProvider;
 import com.nmp90.hearmythoughts.stores.SessionsStore;
 import com.nmp90.hearmythoughts.ui.SessionActivity;
+import com.nmp90.hearmythoughts.ui.models.Role;
 import com.nmp90.hearmythoughts.utils.SharedPrefsUtils;
 import com.squareup.otto.Subscribe;
 
@@ -60,6 +63,11 @@ public class CreateSessionFragment extends BaseNotificationFragment {
 
     @Subscribe
     public void onSessionCreated(SessionsStore.SessionCreatedEvent event) {
+        AuthProvider authProvider = AuthProvider.getInstance(getActivity());
+        User user = authProvider.getUser();
+        user.setRole(Role.TEACHER);
+        authProvider.login(user);
+
         SessionProvider.getInstance(getActivity()).setSession(event.getSession());
         getActivity().onBackPressed();
         Intent intent = new Intent(getActivity(), SessionActivity.class);

@@ -83,7 +83,7 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
             shoouldStopRecognition = true;
             tvStreaming.setText(getResources().getString(R.string.streaming));
             btnDictate.setLoading(shoouldStopRecognition);
-            SpeechRecognitionProvider.getSpeechRecognition().startRecognition(getActivity(), this);
+            SpeechRecognitionProvider.getSpeechRecognition().startRecognition(activity, this);
             AudioUtils.mute(getActivity());
             StreamConnectionManager.getInstance().sendStreamStatus(true, shortId);
         }
@@ -129,7 +129,9 @@ public class StreamTeacherFragment extends Fragment implements ISpeechRecognitio
 
     @Override
     public void onDetach() {
-        StreamConnectionManager.getInstance().sendStreamStatus(false, SessionProvider.getInstance(getActivity()).getSession().getShortId());
+        if(SessionProvider.getInstance(activity).getSession() != null) {
+            StreamConnectionManager.getInstance().sendStreamStatus(false, SessionProvider.getInstance(activity).getSession().getShortId());
+        }
         if(shoouldStopRecognition) {
             shoouldStopRecognition = false;
             SpeechRecognitionProvider.getSpeechRecognition().stopRecognition();
